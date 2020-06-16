@@ -1,3 +1,39 @@
 body {
-    background-color: aqua;
+    position: relative;
+    /* background-image: url("./blacklives.jpg") */
+    background-image: url("blacklives.jpg");
+    background-color: wheat;
 }
+h1 {
+    font-size: 90px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    width: 100vw;
+    height: 40vh;
+    /* background-color: brown; */
+}
+
+.item {
+    display: inline-block;
+    text-align: center;
+    /* background-color: chartreuse; */
+    font-family: monospace;
+    font-size: 18px;
+}
+.signature-field {
+    width: 200px;
+    height: 200px;
+    background-color: chocolate;
+    text-align: center;
+}
+
+/* .item p {
+    margin: -2px;
+} */

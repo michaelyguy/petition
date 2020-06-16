@@ -11,38 +11,21 @@ app.set("view engine", "handlebars");
 //// CSS->inside ////
 app.use(express.static("./public"));
 
-// app.get("/petition", (req, res) => {
-//     res.render("home", {
-//         layout: null,
-//     });
-// });
-
 app.get("/petition", (req, res) => {
-    req.on("ERROR", (err) => {
-        console.log("ERROR IN REQ: ", err);
-    });
-    console.log("working so far");
-    res.setHeader("content-type", "text/html");
-    res.statusCode = 200;
+    //// HANDLEBARS TAKE CARE OF THIS /////
+
+    // req.on("ERROR", (err) => {
+    //     console.log("ERROR IN REQ: ", err);
+    // });
+    // res.setHeader("content-type", "text/html");
+    // res.statusCode = 200;
+
+    //// HANDLEBARS TAKE CARE OF THIS /////
+
     res.render("home", {
-        layout: null,
+        layout: "main",
     });
 });
-
-// app.get("/petition", (req, res) => {
-//     req.on("ERROR", (err) => {
-//         console.log("ERROR IN REQ: ", err);
-//     });
-//     console.log("working so far");
-//     res.setHeader("content-type", "text/html");
-//     res.statusCode = 200;
-//     res.end(`
-//                 <!doctype html>
-//                 <html>
-//                 <title>petition</title>
-//                 <h1>BLACK LIVES MATTERS!</h1>
-//                 </html>`);
-// });
 
 app.listen(8080, () => {
     console.log("server listening!");
