@@ -1,21 +1,20 @@
 
 <h1> BLACK LIVES MATTERS! </h1>
-<h3> - Text will ocme later i promise - </h3>
+<h3> - Text will come later i promise - </h3>
 
       <div class="container">
         <form method="POST">
           <div class="item">
-          <input type="text" id="first" name="first-name">
-          <p>First Name</p>
-          </div>
-          <div class="item">
-           <input type="text" id="last" name="last-name">
-          <p>Last Name</p>
-           <input type="hidden" class="signature-field"  name="signature">
+          <input type="text" id="first" name="firstName" placeholder="First Name">
+          <input type="text" id="last" name="lastName" placeholder="Last Name">
+           <input type="hidden" name="_csrf" value="{{csrfToken}}">
+           <input type="hidden" id="hiddenSignature" name="signature">
            
           </div>
-        <canvas class="signature-field" id="canvas"></canvas>
-          <button type="submit"> SUBMIT </button>
+          <div class="item"></div>
+        <canvas class="signature-field" id="canvas" width="600" height="100"></canvas>
+          <button type="submit"> SUPPORT </button>
+          <div class="item"></div>
           </form>
 </div>
 

@@ -1,6 +1,6 @@
 body {
     position: relative;
-    /* background-image: url("blacklives.jpg"); */
+    background-image: url("blacklives.new.jpg");
     background-color: wheat;
 }
 
@@ -23,11 +23,15 @@ h1 {
     font-size: 90px;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     text-align: center;
+    color: wheat;
+    -webkit-text-stroke: 1px black;
 }
 h3 {
     font-size: 30px;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     text-align: center;
+    color: wheat;
+    -webkit-text-stroke: 1px black;
 }
 
 .container {
@@ -37,7 +41,7 @@ h3 {
     text-align: center;
     width: 100vw;
     height: 40vh;
-    /* background-color: brown; */
+    /* background-color: wheat; */
 }
 
 .item {
@@ -47,13 +51,29 @@ h3 {
     font-family: monospace;
     font-size: 18px;
 }
-.signature-field {
-    width: 200px;
-    height: 200px;
-    background-color: chocolate;
+canvas {
+    border: 2px dotted black;
     text-align: center;
+    display: flex;
+    margin: 30px;
+    background-color: burlywood;
+    border-radius: 25px;
 }
 
+#first,
+#last {
+    margin: 0 15px;
+    text-align: center;
+    height: 40px;
+    width: 150px;
+    border-radius: 25px;
+}
+
+button {
+    height: 40px;
+    width: 150px;
+    border-radius: 25px;
+}
 /* .item p {
     margin: -2px;
 } */
