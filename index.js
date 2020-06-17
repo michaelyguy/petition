@@ -3,7 +3,7 @@ const app = express();
 const handlebars = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const { insertSignature, getFirstAndLast } = require("./db.js");
+const { insertSignature, getFirstAndLast, getAllData } = require("./db.js");
 
 //// NOT SURE WHAT THIS IS DOING ////
 app.engine("handlebars", handlebars());
@@ -51,8 +51,20 @@ app.post("/petition", (req, res) => {
     const userInfo = req.body;
     console.log(userInfo);
 
-    res.redirect("/thanks");
-    insertSignature(userInfo.firstName, userInfo.lastName, userInfo.signature);
+    insertSignature(userInfo.firstName, userInfo.lastName, userInfo.signature)
+        .then((result) => {
+            console.log(result);
+            console.log("--------------");
+            let userId = result.rows[0].id;
+            res.redirect(
+                "/thanks"({
+                    userinfo,
+                })
+            );
+        })
+        .catch((err) => {
+            console.log("ERROR IN INSERT: ", err);
+        });
 });
 
 app.get("/thanks", (req, res) => {
@@ -62,13 +74,21 @@ app.get("/thanks", (req, res) => {
 });
 
 app.get("/signers", (req, res) => {
-    console.log("---------------");
-    console.log(req.body);
-
-    res.render("signers", {
-        layout: "main",
-    });
-    getFirstAndLast(req.body.firstName, req.body.lastName);
+    getAllData()
+        .then((result) => {
+            console.log(result);
+            res.render("signers", {
+                layout: "main",
+                userinfo: {
+                    // req.body.
+                },
+                // userInfo.firstName,
+                // userInfo.lastName
+            });
+        })
+        .catch((err) => {
+            console.log("ERROR IN GET FIRST & LAST: ", err);
+        });
 });
 
 app.listen(8080, () => {

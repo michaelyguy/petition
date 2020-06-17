@@ -3,8 +3,10 @@
     var ctx = canvas.getContext("2d");
     var hiddenCanvas = document.getElementById("hiddenSignature");
     // console.log("canvas is connecting", hiddenCanvas);
+    var isDrawing = false;
 
     canvas.addEventListener("mousedown", (event) => {
+        isDrawing = true;
         console.log(event);
         console.log("im down");
         ctx.beginPath();
@@ -15,13 +17,16 @@
     });
     canvas.addEventListener("mousemove", (event) => {
         console.log("im moving");
-        ctx.lineTo(event.offsetX, event.offsetY);
-        ctx.stroke();
+        if (isDrawing) {
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+        }
     });
 
-    canvas.addEventListener("mouseup", () => {
+    document.addEventListener("mouseup", () => {
+        isDrawing = false;
         console.log("im up");
-        hiddenCanvas = canvas.toDataURL();
+        hiddenCanvas.value = canvas.toDataURL();
         // hiddenCanvas.value = canvas.toDataURL();
         console.log("----------");
         console.log(hiddenCanvas);
