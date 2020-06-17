@@ -1,11 +1,31 @@
 body {
     position: relative;
-    /* background-image: url("./blacklives.jpg") */
     /* background-image: url("blacklives.jpg"); */
     background-color: wheat;
 }
+
+.back-image {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+img {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
 h1 {
     font-size: 90px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    text-align: center;
+}
+h3 {
+    font-size: 30px;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     text-align: center;
 }

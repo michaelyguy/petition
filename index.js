@@ -1,43 +1,51 @@
 const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
-const http = require("http");
-const fs = require("fs");
-const cookieParser = require("cookie-parser");
-const spicedPg = require("spiced-pg");
-
-const db = spicedPg(`postgres:postgres:postgres@localhost:5432/signature`);
+const cookieSession = require("cookie-session");
+const { insertSignature, getFirstAndLast } = require("./db.js");
 
 //// NOT SURE WHAT THIS IS DOING ////
 app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");
 
-//// ALSO NOT SURE /////
-app.use(cookieParser());
-
-//// CSS->inside ////
+//// MIDDLEWARE ////
+app.use(
+    cookieSession({
+        secret: `I'm always angry.`,
+        maxAge: 1000 * 60 * 24 * 14,
+    })
+);
+//// CSS, CANVAS, PHOTOS /////
 app.use(express.static("./public"));
+app.use(express.urlencoded({ extended: false }));
 
-app.get("/petition", (req, res) => {
-    //// HANDLEBARS TAKE CARE OF THIS /////
-
-    // req.on("ERROR", (err) => {
-    //     console.log("ERROR IN REQ: ", err);
-    // });
-    // res.setHeader("content-type", "text/html");
-    // res.statusCode = 200;
-
-    //// HANDLEBARS TAKE CARE OF THIS /////
-
-    res.render("home", {
-        layout: "main",
-    });
+app.get("/", (req, res) => {
+    res.redirect("/petition");
 });
 
-app.post("/petitions", (req, res) => {
-    return db.query(
-        `INSERT INTO signature (first, last, signature) VALUES ($1, $2, $3)`,
-        [first, last, signature]
+app.get("/petition", (req, res) => {
+    const permission = req.session.permission;
+    if (permission) {
+        res.redirect("/thanks");
+    } else {
+        res.render("home", {
+            layout: "main",
+        });
+    }
+});
+
+app.post("/petition", (req, res) => {
+    console.log("req.session before values set:", req.session);
+    req.session.permission = true;
+    console.log("req.ssesion after value set: ", req.session);
+    const userInfo = req.body;
+    console.log(userInfo);
+
+    res.redirect("/thanks");
+    insertSignature(
+        userInfo[first - name],
+        userInfo[last - name],
+        userInfo.signature
     );
 });
 
@@ -47,6 +55,12 @@ app.get("/thanks", (req, res) => {
     });
 });
 
+app.get("/signers", (req, res) => {
+    res.render("signers", {
+        layout: "main",
+    });
+});
+
 app.listen(8080, () => {
-    console.log("server listening!");
+    console.log("PETITION RUNING!");
 });
