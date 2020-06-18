@@ -37,8 +37,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/petition", (req, res) => {
-    const permission = req.session.permission;
-    if (permission) {
+    const { userInf, permission } = req.session;
+    if (userInf && permission) {
         res.redirect("/thanks");
     } else {
         res.render("home", {
@@ -48,7 +48,9 @@ app.get("/petition", (req, res) => {
 });
 
 app.post("/petition", (req, res) => {
+    console.log("req.session before values set: ", req.session);
     req.session.permission = true;
+    console.log("req.session after value set: ", req.session);
     const userInfo = req.body;
 
     console.log("-------USER INFO-------");
@@ -58,7 +60,15 @@ app.post("/petition", (req, res) => {
         .then((result) => {
             console.log("-------RESULTS-/petition--------");
             console.log(result);
-            // let userId = result.rows[0].id;
+            let userId = result.rows[0].id;
+            req.session.userInf = {
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
+                signature: userId,
+            };
+            console.log("-------req.sss----");
+            console.log(req.session);
+
             res.redirect("/thanks");
         })
         .catch((err) => {
@@ -66,11 +76,13 @@ app.post("/petition", (req, res) => {
         });
 });
 
+//// NOT SURE IT'S THE RIGHT PLACE FOR THIS /////
+// let userInfo;
+
 app.get("/thanks", (req, res) => {
     res.render("thanks", {
         layout: "main",
-        emojis: ["🦆", "🐢", "🍆", "🍄", "🦔"],
-        userInfo,
+        userInf: req.session.userInf,
     });
 });
 
@@ -81,11 +93,6 @@ app.get("/signers", (req, res) => {
             console.log(result);
             res.render("signers", {
                 layout: "main",
-                userinfo: {
-                    // req.body.
-                },
-                // userInfo.firstName,
-                // userInfo.lastName
             });
         })
         .catch((err) => {
