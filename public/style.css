@@ -60,6 +60,15 @@ canvas {
     border-radius: 25px;
 }
 
+.signature-field {
+    border: 2px dotted black;
+    text-align: center;
+    display: flex;
+    margin: 30px;
+    background-color: burlywood;
+    border-radius: 25px;
+}
+
 #first,
 #last {
     margin: 0 15px;

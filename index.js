@@ -3,7 +3,12 @@ const app = express();
 const handlebars = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const { insertSignature, getFirstAndLast, signatureId } = require("./db.js");
+const {
+    insertSignature,
+    getFirstAndLast,
+    getSignatureById,
+    getAllData,
+} = require("./db.js");
 // const { hash, compare } = require("./bc.js");
 
 //// NOT SURE WHAT THIS IS DOING ////
@@ -37,36 +42,27 @@ app.get("/", (req, res) => {
 });
 
 app.get("/petition", (req, res) => {
-    const { userInf, permission } = req.session;
-    if (userInf && permission) {
-        res.redirect("/thanks");
-    } else {
-        res.render("home", {
-            layout: "main",
-        });
-    }
+    const infoCookie = req.session;
+    res.render("home", {
+        layout: "main",
+    });
 });
 
 app.post("/petition", (req, res) => {
-    console.log("req.session before values set: ", req.session);
-    req.session.permission = true;
-    console.log("req.session after value set: ", req.session);
     const userInfo = req.body;
-
     console.log("-------USER INFO-------");
     console.log(userInfo);
-
     insertSignature(userInfo.firstName, userInfo.lastName, userInfo.signature)
         .then((result) => {
             console.log("-------RESULTS-/petition--------");
             console.log(result);
             let userId = result.rows[0].id;
-            req.session.userInf = {
+            req.session.infoCookie = {
                 firstName: userInfo.firstName,
                 lastName: userInfo.lastName,
-                signature: userId,
+                signatureId: userId,
             };
-            console.log("-------req.sss----");
+            console.log("-------REQ.SESSION----");
             console.log(req.session);
 
             res.redirect("/thanks");
@@ -74,15 +70,21 @@ app.post("/petition", (req, res) => {
         .catch((err) => {
             console.log("ERROR IN POST /petition: ", err);
         });
+    // getAllData().then((result) => {
+    //     console.log("------RESULT ALL DATA=-----");
+
+    //     console.log(result);
+    // });
 });
 
-//// NOT SURE IT'S THE RIGHT PLACE FOR THIS /////
-// let userInfo;
-
 app.get("/thanks", (req, res) => {
-    res.render("thanks", {
-        layout: "main",
-        userInf: req.session.userInf,
+    getSignatureById(req.session.infoCookie.signatureId).then((result) => {
+        console.log("-----RESULT /THANKS GET-----");
+        console.log(result);
+        res.render("thanks", {
+            layout: "main",
+            infoCookie: result.rows[0],
+        });
     });
 });
 
@@ -93,6 +95,7 @@ app.get("/signers", (req, res) => {
             console.log(result);
             res.render("signers", {
                 layout: "main",
+                result: result.rows,
             });
         })
         .catch((err) => {

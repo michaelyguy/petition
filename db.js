@@ -12,10 +12,15 @@ module.exports.getFirstAndLast = () => {
     return db.query(`SELECT first, last FROM signature`);
 };
 
-module.exports.signatureId = (userId) => {
-    return db.query(`SELECT first, last FROM signature WHERE id = $1`, [
-        userId,
-    ]);
+module.exports.getSignatureById = (userId) => {
+    return db.query(
+        `SELECT first, last , signature FROM signature WHERE id = $1`,
+        [userId]
+    );
+};
+
+module.exports.getAllData = () => {
+    return db.query(`SELECT * FROM signature`);
 };
 
 // module.exports.signatureId = () => {
