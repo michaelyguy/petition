@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-    res.redirect("/petition");
+    res.redirect("/register");
 });
 
 app.get("/petition", (req, res) => {
@@ -103,17 +103,49 @@ app.get("/signers", (req, res) => {
         });
 });
 
-//// FOR PART 3 ////
+// FOR PART 3 ////
 
-// app.get("/login", (req, res) => {
-//     res.render("login, {}");
-// });
+app.get("/login", (req, res) => {
+    res.render("login", {
+        layout: "main",
+        // result: result.rows,
+    });
+});
 
-// app.get("/register", (req, res) => {
-//     res.render("register, {}");
-// });
+app.post("/login", (req, res) => {});
 
-// app.post("/register", (req, res) => {});
+app.get("/register", (req, res) => {
+    res.render("register", {
+        layout: "main",
+        // result: result.rows,
+    });
+});
+
+app.post("/register", (req, res) => {
+    const userInfo = req.body;
+    console.log("-------USER INFO POST REGISTER-------");
+    console.log(userInfo);
+    // you will get all sorts of user info: like first, last, email and desired password in
+    // clear Text, all this information will be in req.body
+    // you will want to call hash, pass it the user's password (i.e. req.body.password),
+    // and salt&hash it before you store the user's info in the database
+    // in class we are hardcoding the user's password input DO NOT DO THIS when you
+    // are implementing this feature
+    hash("userInput")
+        .then((hashedPw) => {
+            console.log("hashed userInput/password:", hashedPw);
+            // this is where we will want to make an insert into our database with all this
+            // user information, if something goes wrong in our insert of user information
+            // render register with an error msg, if everything goes right, redirect them to
+            // the petition page
+            res.sendStatus(200);
+        })
+        .catch((err) => {
+            console.log("error in POST /register:", err);
+            res.sendStatus(500);
+            // you will want to render register with an error message
+        });
+});
 
 app.listen(8080, () => {
     console.log("PETITION RUNING!");
