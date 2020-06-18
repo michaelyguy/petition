@@ -3,7 +3,8 @@ const app = express();
 const handlebars = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const { insertSignature, getFirstAndLast, getAllData } = require("./db.js");
+const { insertSignature, getFirstAndLast, signatureId } = require("./db.js");
+// const { hash, compare } = require("./bc.js");
 
 //// NOT SURE WHAT THIS IS DOING ////
 app.engine("handlebars", handlebars());
@@ -49,33 +50,34 @@ app.get("/petition", (req, res) => {
 app.post("/petition", (req, res) => {
     req.session.permission = true;
     const userInfo = req.body;
+
+    console.log("-------USER INFO-------");
     console.log(userInfo);
 
     insertSignature(userInfo.firstName, userInfo.lastName, userInfo.signature)
         .then((result) => {
+            console.log("-------RESULTS-/petition--------");
             console.log(result);
-            console.log("--------------");
-            let userId = result.rows[0].id;
-            res.redirect(
-                "/thanks"({
-                    userinfo,
-                })
-            );
+            // let userId = result.rows[0].id;
+            res.redirect("/thanks");
         })
         .catch((err) => {
-            console.log("ERROR IN INSERT: ", err);
+            console.log("ERROR IN POST /petition: ", err);
         });
 });
 
 app.get("/thanks", (req, res) => {
     res.render("thanks", {
         layout: "main",
+        emojis: ["🦆", "🐢", "🍆", "🍄", "🦔"],
+        userInfo,
     });
 });
 
 app.get("/signers", (req, res) => {
-    getAllData()
+    getFirstAndLast()
         .then((result) => {
+            console.log("-------RESULTS-/signers--------");
             console.log(result);
             res.render("signers", {
                 layout: "main",
@@ -87,9 +89,21 @@ app.get("/signers", (req, res) => {
             });
         })
         .catch((err) => {
-            console.log("ERROR IN GET FIRST & LAST: ", err);
+            console.log("ERROR IN GET /signers: ", err);
         });
 });
+
+//// FOR PART 3 ////
+
+// app.get("/login", (req, res) => {
+//     res.render("login, {}");
+// });
+
+// app.get("/register", (req, res) => {
+//     res.render("register, {}");
+// });
+
+// app.post("/register", (req, res) => {});
 
 app.listen(8080, () => {
     console.log("PETITION RUNING!");
