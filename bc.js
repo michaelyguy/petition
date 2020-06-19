@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
-let { genSalt, hase, compare } = bcrypt;
+let { genSalt, hash, compare } = bcrypt;
 const { promisify } = require("util");
 
 genSalt = promisify(genSalt);
 hash = promisify(hash);
 compare = promisify(compare);
 
-module.exports.hase = (plainTxtPw) =>
+module.exports.hash = (plainTxtPw) =>
     genSalt().then((salt) => hash(plainTxtPw, salt));
 module.exports.compare = compare;

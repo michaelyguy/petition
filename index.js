@@ -8,8 +8,9 @@ const {
     getFirstAndLast,
     getSignatureById,
     getAllData,
+    insertUserInfo,
 } = require("./db.js");
-// const { hash, compare } = require("./bc.js");
+const { hash, compare } = require("./bc.js");
 
 //// NOT SURE WHAT THIS IS DOING ////
 app.engine("handlebars", handlebars());
@@ -103,19 +104,8 @@ app.get("/signers", (req, res) => {
         });
 });
 
-// FOR PART 3 ////
-
 app.get("/login", (req, res) => {
     res.render("login", {
-        layout: "main",
-        // result: result.rows,
-    });
-});
-
-app.post("/login", (req, res) => {});
-
-app.get("/register", (req, res) => {
-    res.render("register", {
         layout: "main",
         // result: result.rows,
     });
@@ -125,26 +115,65 @@ app.post("/register", (req, res) => {
     const userInfo = req.body;
     console.log("-------USER INFO POST REGISTER-------");
     console.log(userInfo);
-    // you will get all sorts of user info: like first, last, email and desired password in
-    // clear Text, all this information will be in req.body
-    // you will want to call hash, pass it the user's password (i.e. req.body.password),
-    // and salt&hash it before you store the user's info in the database
-    // in class we are hardcoding the user's password input DO NOT DO THIS when you
-    // are implementing this feature
-    // hash("userInput")
-    //     .then((hashedPw) => {
-    //         console.log("hashed userInput/password:", hashedPw);
-    // this is where we will want to make an insert into our database with all this
-    // user information, if something goes wrong in our insert of user information
-    // render register with an error msg, if everything goes right, redirect them to
-    // the petition page
-    // res.sendStatus(200);
-    // })
-    // .catch((err) => {
-    //     console.log("error in POST /register:", err);
-    //     res.sendStatus(500);
-    // you will want to render register with an error message
-    // });
+    hash(userInfo.password)
+        .then((hashedPw) => {
+            console.log("------HASEDPASSWORD-----");
+            console.log(hashedPw);
+            insertUserInfo(
+                userInfo.first,
+                userInfo.last,
+                userInfo.email,
+                userInfo.password
+            ).then((result) => {
+                console.log('----RESULT IN POST"/REGISTER"----');
+                console.log(result);
+                res.redirect("/petition");
+                res.sendStatus(200);
+            });
+
+            // this is where we will want to make an insert into our database with all this
+            // user information, if something goes wrong in our insert of user information
+            // render register with an error msg, if everything goes right, redirect them to
+            // the petition page
+        })
+        .catch((err) => {
+            console.log("ERROR IN POST /register: ", err);
+            res.sendStatus(500);
+            // you will want to render register with an error message
+        });
+});
+
+// app.post("/login", (req, res) => {});
+
+app.get("/register", (req, res) => {
+    res.render("register", {
+        layout: "main",
+        // result: result.rows,
+    });
+});
+
+app.post("/login", (req, res) => {
+    const userInfo = req.body;
+
+    const hashedUserPasswordFromDB = userInfo.password;
+    compare(userInfo.password, hashedUserPasswordFromDB)
+        .then((match) => {
+            console.log("match:", match);
+            console.log("password correct?", match);
+            if (match == true) {
+                // if match is true, you want to store the user is in the cookie
+            } else {
+                // if password don't match render login with an error message
+                // if compare returned true: check if the user has signed the petition, if yes
+                // store this infor in a cookie and redirect to /thanks, if not redirect to /petition
+                res.sendStatus(200);
+            }
+        })
+        .catch((err) => {
+            console.log("error in POST /login compare:", err);
+            //you probably just want to render login with an error
+            res.sendStatus(500);
+        });
 });
 
 app.listen(8080, () => {

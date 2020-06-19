@@ -23,6 +23,13 @@ module.exports.getAllData = () => {
     return db.query(`SELECT * FROM signature`);
 };
 
+module.exports.insertUserInfo = (first, last, email, password) => {
+    return db.query(
+        `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id`,
+        [first, last, email, password]
+    );
+};
+
 // module.exports.signatureId = () => {
 //     return.db.query(`SELECT signature FROM signature WHERE id = $1`,
 //         userId,
