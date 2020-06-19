@@ -7,16 +7,15 @@ const {
     insertSignature,
     getFirstAndLast,
     getSignatureById,
-    getAllData,
     insertUserInfo,
+    getHashedPassword,
+    getSignature,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
-//// NOT SURE WHAT THIS IS DOING ////
 app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");
 
-//// MIDDLEWARES ////
 app.use(
     cookieSession({
         secret: `I'm always angry.`,
@@ -24,7 +23,6 @@ app.use(
     })
 );
 
-//// CSS, CANVAS, PHOTOS /////
 app.use(express.static("./public"));
 
 //// PROTECTING THE SITE ////
@@ -67,12 +65,6 @@ app.post("/petition", (req, res) => {
         .catch((err) => {
             console.log("ERROR IN POST /petition: ", err);
         });
-
-    // getAllData().then((result) => {
-    //     console.log("------RESULT ALL DATA=-----");
-
-    //     console.log(result);
-    // });
 });
 
 app.get("/thanks", (req, res) => {
@@ -120,66 +112,33 @@ app.post("/register", (req, res) => {
                 userInfo.firstName,
                 userInfo.lastName,
                 userInfo.email,
-                userInfo.password
-            ).then((result) => {
-                console.log("-----before coockie----");
-
-                console.log(result);
-
-                req.session.infoCookie = {
-                    firstName: userInfo.firstName,
-                    lastName: userInfo.lastName,
-                    email: userInfo.email,
-                    userId: result.rows[0].id,
-                };
-                console.log('----RESULT IN POST"/REGISTER"----');
-                console.log(result);
-                res.redirect("/petition");
-            });
-
-            // this is where we will want to make an insert into our database with all this
-            // user information, if something goes wrong in our insert of user information
-            // render register with an error msg, if everything goes right, redirect them to
-            // the petition page
+                hashedPw
+            )
+                .then((result) => {
+                    req.session.infoCookie = {
+                        firstName: userInfo.firstName,
+                        lastName: userInfo.lastName,
+                        email: userInfo.email,
+                        userId: result.rows[0].id,
+                    };
+                    console.log('----RESULT IN POST"/REGISTER"----');
+                    console.log(result);
+                    res.redirect("/petition");
+                })
+                .catch((err) => {
+                    console.log("ERROR IN /REGISTER INFO", err);
+                    res.render("register", {
+                        layout: "main",
+                        err: true,
+                        // ADD ERROR IN HANDLEBARS //
+                    });
+                });
         })
         .catch((err) => {
             console.log("ERROR IN POST /register: ", err);
             res.sendStatus(500);
-            // you will want to render register with an error message
         });
 });
-
-// app.post("/register", (req, res) => {
-//     const userInfo = req.body;
-//     console.log("-------USER INFO POST REGISTER-------");
-//     console.log(userInfo);
-//     hash(userInfo.password)
-//         .then((hashedPw) => {
-//             console.log("------HASEDPASSWORD-----");
-//             console.log(hashedPw);
-//             insertUserInfo(
-//                 userInfo.first,
-//                 userInfo.last,
-//                 userInfo.email,
-//                 userInfo.password
-//             ).then((result) => {
-//                 console.log('----RESULT IN POST"/REGISTER"----');
-//                 console.log(result);
-//                 res.redirect("/petition");
-//                 res.sendStatus(200);
-//             });
-
-//             // this is where we will want to make an insert into our database with all this
-//             // user information, if something goes wrong in our insert of user information
-//             // render register with an error msg, if everything goes right, redirect them to
-//             // the petition page
-//         })
-//         .catch((err) => {
-//             console.log("ERROR IN POST /register: ", err);
-//             res.sendStatus(500);
-//             // you will want to render register with an error message
-//         });
-// });
 
 app.get("/register", (req, res) => {
     res.render("register", {
@@ -190,26 +149,41 @@ app.get("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
     const userInfo = req.body;
-
+    console.log("-------USER INFO POST /LOGIN-------");
+    console.log(userInfo);
     const userPassword = userInfo.password;
-    compare(userInfo.password, userPassword)
-        .then((match) => {
-            console.log("match:", match);
-            console.log("password correct?", match);
-            if (match == true) {
-                // if match is true, you want to store the user is in the cookie
-            } else {
-                // if password don't match render login with an error message
-                // if compare returned true: check if the user has signed the petition, if yes
-                // store this infor in a cookie and redirect to /thanks, if not redirect to /petition
-                res.sendStatus(200);
-            }
-        })
-        .catch((err) => {
-            console.log("error in POST /login compare:", err);
-            //you probably just want to render login with an error
-            res.sendStatus(500);
-        });
+    getHashedPassword(userInfo.email).then((result) => {
+        console.log("------RESULT IN POST /LOGIN------");
+        console.log(result);
+        compare(userPassword, result.rows[0].password)
+            .then((match) => {
+                console.log("match:", match);
+                console.log("password correct?", match);
+                if (match == true) {
+                    // (req.session.infoCookie.signatureId = signatureId),
+                    // if match is true, you want to store the user is in the cookie
+                    getSignature(result.rows[0].id).then((result) => {
+                        console.log("----RESULT IN GETSIGNATURE-----");
+                        console.log(result);
+                    });
+                } else {
+                    res.render("login", {
+                        layout: "main",
+                        err: true,
+                        // ADD ERROR IN HANDLEBARS //
+                    });
+
+                    // if password don't match render login with an error message
+                    // if compare returned true: check if the user has signed the petition, if yes
+                    // store this infor in a cookie and redirect to /thanks, if not redirect to /petition
+                }
+            })
+            .catch((err) => {
+                console.log("error in POST /login compare:", err);
+                //you probably just want to render login with an error
+                res.sendStatus(500);
+            });
+    });
 });
 
 app.listen(8080, () => {

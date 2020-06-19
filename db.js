@@ -27,24 +27,12 @@ module.exports.insertUserInfo = (first, last, email, password) => {
     );
 };
 
-module.exports.getHashedPassword = (password) => {
-    return db.query(`SELECT password FROM users WHERE password = $1`, [
-        password,
-    ]);
+module.exports.getHashedPassword = (email) => {
+    return db.query(`SELECT password FROM users WHERE email = $1`, [email]);
 };
 
-// module.exports.signatureId = () => {
-//     return.db.query(`SELECT signature FROM signature WHERE id = $1`,
-//         userId,
-//     };
-
-// module.exports.insertSignature = (first, last, signature) => {
-//     return db.query(
-//         `INSERT INTO signature (first, last, signature) VALUES ($1, $2, $3) RETURNING id`,
-//         [first, last, signature]
-//     );
-// };
-
-// module.exports.getAllData = () => {
-//     return db.query(`SELECT first , last FROM signature`);
-// };
+module.exports.getSignature = (userId) => {
+    return db.query(`SELECT signature FROM signature WHERE signature = $1`, [
+        userId,
+    ]);
+};
