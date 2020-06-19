@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS signature;
 --   signature VARCHAR NOT NULL CHECK (signature != '')
 -- );
 
-CREATE TABLE signatures(
+CREATE TABLE signature(
       id SERIAL PRIMARY KEY,
       signature TEXT NOT NULL,
       user_id INTEGER NOT NULL UNIQUE REFERENCES users(id),

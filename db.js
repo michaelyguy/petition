@@ -1,10 +1,10 @@
 const spicedPg = require("spiced-pg");
 const db = spicedPg(`postgres:postgres:postgres@localhost:5432/petition`);
 
-module.exports.insertSignature = (first, last, signature) => {
+module.exports.insertSignature = (signature, id) => {
     return db.query(
-        `INSERT INTO signature (first, last, signature) VALUES ($1, $2, $3) RETURNING id`,
-        [first, last, signature]
+        `INSERT INTO signature (signature, user_id) VALUES ($1, $2) RETURNING id`,
+        [signature, id]
     );
 };
 
@@ -13,10 +13,7 @@ module.exports.getFirstAndLast = () => {
 };
 
 module.exports.getSignatureById = (userId) => {
-    return db.query(
-        `SELECT first, last , signature FROM signature WHERE id = $1`,
-        [userId]
-    );
+    return db.query(`SELECT signature FROM signature WHERE id = $1`, [userId]);
 };
 
 module.exports.getAllData = () => {
@@ -28,6 +25,12 @@ module.exports.insertUserInfo = (first, last, email, password) => {
         `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id`,
         [first, last, email, password]
     );
+};
+
+module.exports.getHashedPassword = (password) => {
+    return db.query(`SELECT password FROM users WHERE password = $1`, [
+        password,
+    ]);
 };
 
 // module.exports.signatureId = () => {

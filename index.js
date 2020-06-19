@@ -53,17 +53,13 @@ app.post("/petition", (req, res) => {
     const userInfo = req.body;
     console.log("-------USER INFO-------");
     console.log(userInfo);
-    insertSignature(userInfo.firstName, userInfo.lastName, userInfo.signature)
+    insertSignature(userInfo.signature, req.session.infoCookie.userId)
         .then((result) => {
             console.log("-------RESULTS-/petition--------");
             console.log(result);
-            let userId = result.rows[0].id;
-            req.session.infoCookie = {
-                firstName: userInfo.firstName,
-                lastName: userInfo.lastName,
-                signatureId: userId,
-            };
-            console.log("-------REQ.SESSION----");
+            let signatureId = result.rows[0].id;
+            (req.session.infoCookie.signatureId = signatureId),
+                console.log("-------REQ.SESSION----");
             console.log(req.session);
 
             res.redirect("/thanks");
@@ -71,6 +67,7 @@ app.post("/petition", (req, res) => {
         .catch((err) => {
             console.log("ERROR IN POST /petition: ", err);
         });
+
     // getAllData().then((result) => {
     //     console.log("------RESULT ALL DATA=-----");
 
@@ -120,15 +117,24 @@ app.post("/register", (req, res) => {
             console.log("------HASEDPASSWORD-----");
             console.log(hashedPw);
             insertUserInfo(
-                userInfo.first,
-                userInfo.last,
+                userInfo.firstName,
+                userInfo.lastName,
                 userInfo.email,
                 userInfo.password
             ).then((result) => {
+                console.log("-----before coockie----");
+
+                console.log(result);
+
+                req.session.infoCookie = {
+                    firstName: userInfo.firstName,
+                    lastName: userInfo.lastName,
+                    email: userInfo.email,
+                    userId: result.rows[0].id,
+                };
                 console.log('----RESULT IN POST"/REGISTER"----');
                 console.log(result);
                 res.redirect("/petition");
-                res.sendStatus(200);
             });
 
             // this is where we will want to make an insert into our database with all this
@@ -143,7 +149,37 @@ app.post("/register", (req, res) => {
         });
 });
 
-// app.post("/login", (req, res) => {});
+// app.post("/register", (req, res) => {
+//     const userInfo = req.body;
+//     console.log("-------USER INFO POST REGISTER-------");
+//     console.log(userInfo);
+//     hash(userInfo.password)
+//         .then((hashedPw) => {
+//             console.log("------HASEDPASSWORD-----");
+//             console.log(hashedPw);
+//             insertUserInfo(
+//                 userInfo.first,
+//                 userInfo.last,
+//                 userInfo.email,
+//                 userInfo.password
+//             ).then((result) => {
+//                 console.log('----RESULT IN POST"/REGISTER"----');
+//                 console.log(result);
+//                 res.redirect("/petition");
+//                 res.sendStatus(200);
+//             });
+
+//             // this is where we will want to make an insert into our database with all this
+//             // user information, if something goes wrong in our insert of user information
+//             // render register with an error msg, if everything goes right, redirect them to
+//             // the petition page
+//         })
+//         .catch((err) => {
+//             console.log("ERROR IN POST /register: ", err);
+//             res.sendStatus(500);
+//             // you will want to render register with an error message
+//         });
+// });
 
 app.get("/register", (req, res) => {
     res.render("register", {
@@ -155,8 +191,8 @@ app.get("/register", (req, res) => {
 app.post("/login", (req, res) => {
     const userInfo = req.body;
 
-    const hashedUserPasswordFromDB = userInfo.password;
-    compare(userInfo.password, hashedUserPasswordFromDB)
+    const userPassword = userInfo.password;
+    compare(userInfo.password, userPassword)
         .then((match) => {
             console.log("match:", match);
             console.log("password correct?", match);
