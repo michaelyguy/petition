@@ -10,6 +10,7 @@ const {
     insertUserInfo,
     getHashedPassword,
     getSignature,
+    insertProfileInfo,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
@@ -25,11 +26,9 @@ app.use(
 
 app.use(express.static("./public"));
 
-//// PROTECTING THE SITE ////
 app.use(express.urlencoded({ extended: false }));
 app.use(csurf());
 
-//// PROTECTING ALL HIDDEN FOARMS ////
 app.use(function (req, res, next) {
     res.setHeader("X-frame-options", "deny");
     res.locals.csrfToken = req.csrfToken();
@@ -56,8 +55,8 @@ app.post("/petition", (req, res) => {
             console.log("-------RESULTS-/petition--------");
             console.log(result);
             let signatureId = result.rows[0].id;
-            (req.session.infoCookie.signatureId = signatureId),
-                console.log("-------REQ.SESSION----");
+            req.session.infoCookie.signatureId = signatureId;
+            console.log("--------REQ.SESSION-----");
             console.log(req.session);
 
             res.redirect("/thanks");
@@ -96,7 +95,6 @@ app.get("/signers", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("login", {
         layout: "main",
-        // result: result.rows,
     });
 });
 
@@ -123,14 +121,13 @@ app.post("/register", (req, res) => {
                     };
                     console.log('----RESULT IN POST"/REGISTER"----');
                     console.log(result);
-                    res.redirect("/petition");
+                    res.redirect("/profile");
                 })
                 .catch((err) => {
                     console.log("ERROR IN /REGISTER INFO", err);
                     res.render("register", {
                         layout: "main",
-                        err: true,
-                        // ADD ERROR IN HANDLEBARS //
+                        error: true,
                     });
                 });
         })
@@ -143,7 +140,6 @@ app.post("/register", (req, res) => {
 app.get("/register", (req, res) => {
     res.render("register", {
         layout: "main",
-        // result: result.rows,
     });
 });
 
@@ -153,36 +149,69 @@ app.post("/login", (req, res) => {
     console.log(userInfo);
     const userPassword = userInfo.password;
     getHashedPassword(userInfo.email).then((result) => {
-        console.log("------RESULT IN POST /LOGIN------");
+        console.log("-----RESULT IN POST /LOGIN-----");
         console.log(result);
-        compare(userPassword, result.rows[0].password)
-            .then((match) => {
-                console.log("match:", match);
-                console.log("password correct?", match);
-                if (match == true) {
-                    // (req.session.infoCookie.signatureId = signatureId),
-                    // if match is true, you want to store the user is in the cookie
-                    getSignature(result.rows[0].id).then((result) => {
-                        console.log("----RESULT IN GETSIGNATURE-----");
-                        console.log(result);
-                    });
-                } else {
+        if (result.rows.length <= 0) {
+            res.redirect("/register");
+        } else {
+            console.log("------RESULT IN POST /LOGIN------");
+            console.log(result);
+            compare(userPassword, result.rows[0].password)
+                .then((match) => {
+                    console.log("password correct?", match);
+                    if (match == true) {
+                        getSignature(result.rows[0].id).then((result) => {
+                            if (result.rows.length > 0) {
+                                req.session.infoCookie.signatureId =
+                                    result.rows[0].id;
+                                console.log("-----MY COOKIE-----");
+                                console.log(req.session.infoCookie);
+
+                                console.log(
+                                    "------RESULT IN GETSIGNATURE-----"
+                                );
+                                console.log(result);
+                                res.redirect("/thanks");
+                            } else {
+                                res.redirect("/petition");
+                            }
+                        });
+                    } else {
+                        res.render("login", {
+                            layout: "main",
+                            error: true,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("error in POST /login compare:", err);
                     res.render("login", {
                         layout: "main",
-                        err: true,
-                        // ADD ERROR IN HANDLEBARS //
+                        error: true,
                     });
+                });
+        }
+    });
+});
 
-                    // if password don't match render login with an error message
-                    // if compare returned true: check if the user has signed the petition, if yes
-                    // store this infor in a cookie and redirect to /thanks, if not redirect to /petition
-                }
-            })
-            .catch((err) => {
-                console.log("error in POST /login compare:", err);
-                //you probably just want to render login with an error
-                res.sendStatus(500);
-            });
+app.get("/profile", (req, res) => {
+    res.render("profile", {
+        layout: "main",
+    });
+});
+
+app.post("/profile", (req, res) => {
+    const userInfo = req.body;
+    console.log("-------USER INFO POST /PROFILE-------");
+    console.log(userInfo);
+    insertProfileInfo(
+        userInfo.age,
+        userInfo.city,
+        userInfo.homePage,
+        req.session.infoCookie.userId
+    ).then((result) => {
+        console.log("----------RESULT IN POST /PROFILE----------");
+        console.log(result);
     });
 });
 

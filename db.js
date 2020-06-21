@@ -32,7 +32,14 @@ module.exports.getHashedPassword = (email) => {
 };
 
 module.exports.getSignature = (userId) => {
-    return db.query(`SELECT signature FROM signature WHERE signature = $1`, [
+    return db.query(`SELECT signature FROM signature WHERE user_id = $1`, [
         userId,
     ]);
+};
+
+module.exports.insertProfileInfo = (age, city, url, userId) => {
+    return db.query(
+        `INSERT INTO user_profiles (age, city, url, user_id) VALUES ($1, $2, $3, $4) RETURNING id`,
+        [age, city, url, userId]
+    );
 };

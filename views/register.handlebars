@@ -7,8 +7,6 @@
           <input type="text" id="password" name="password" placeholder="Password">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-        {{!-- ADD ERROR IFFF --}}
-
 
          
           
@@ -18,4 +16,11 @@
           <button type="submit"> REGISTER </button>
           <div class="item"></div>
           </form>
+
+
+        {{#if error}}
+  <div class="error">Something went wrong! It is totally your fault.</div>
+        {{/if}}
+
+
           <a href="/login">Aalready registered</a>
