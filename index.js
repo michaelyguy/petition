@@ -11,6 +11,7 @@ const {
     getHashedPassword,
     getSignature,
     insertProfileInfo,
+    getSingersInfo,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
@@ -77,8 +78,23 @@ app.get("/thanks", (req, res) => {
     });
 });
 
+// app.get("/signers", (req, res) => {
+//     getFirstAndLast()
+//         .then((result) => {
+//             console.log("-------RESULTS-/signers--------");
+//             console.log(result);
+//             res.render("signers", {
+//                 layout: "main",
+//                 result: result.rows,
+//             });
+//         })
+//         .catch((err) => {
+//             console.log("ERROR IN GET /signers: ", err);
+//         });
+// });
+
 app.get("/signers", (req, res) => {
-    getFirstAndLast()
+    getSingersInfo()
         .then((result) => {
             console.log("-------RESULTS-/signers--------");
             console.log(result);

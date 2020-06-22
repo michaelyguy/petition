@@ -43,3 +43,12 @@ module.exports.insertProfileInfo = (age, city, url, userId) => {
         [age, city, url, userId]
     );
 };
+
+module.exports.getSingersInfo = () => {
+    return db.query(`SELECT first, last, age, city, url
+    FROM users
+    JOIN signature
+    ON users.id = signature.user_id
+    JOIN user_profiles
+    ON signature.id = user_profiles.user_id`);
+};
