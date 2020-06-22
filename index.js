@@ -225,9 +225,19 @@ app.post("/profile", (req, res) => {
 app.get("/signers/:city", (req, res) => {
     console.log("------REQ.PARAMS------");
     console.log(req.params);
-    res.render("signers-by-city", {
-        layout: "main",
-    });
+    getSignersByCity(req.params.city)
+        .then((result) => {
+            console.log("---------RESULT INSIDE PARAMS--------");
+            console.log(result);
+            res.render("signers-by-city", {
+                layout: "main",
+                city: req.params.city,
+                signers: result.rows,
+            });
+        })
+        .catch((err) => {
+            console.log("ERROR IN SIGNERS/:CITY: ", err);
+        });
 });
 
 app.listen(process.env.PORT || 8080, () => {

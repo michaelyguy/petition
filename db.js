@@ -54,14 +54,14 @@ module.exports.getSignersInfo = () => {
 
 module.exports.getSignersByCity = (city) => {
     return db.query(
-        `SELECT first, last, age, city, url
+        `SELECT first, last, age, url
     FROM users
     JOIN signature
     ON users.id = signature.user_id
     LEFT JOIN user_profiles
     ON users.id = user_profiles.user_id
-    WHERE city = $1
-    WHERE LOWER(city) = LOWER($1) RETURNING *
-    `[city]
+    WHERE LOWER(city) = LOWER($1)
+    `,
+        [city]
     );
 };
