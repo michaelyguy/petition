@@ -10,7 +10,8 @@ const {
     getHashedPassword,
     getSignature,
     insertProfileInfo,
-    getSingersInfo,
+    getSignersInfo,
+    getSignersByCity,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
@@ -70,18 +71,24 @@ app.get("/thanks", (req, res) => {
     getSignatureById(req.session.infoCookie.signatureId).then((result) => {
         console.log("-----RESULT /THANKS GET-----");
         console.log(result);
+        console.log("------FIRST NAMEEEEE----");
+
+        console.log(req.session.infoCookie.firstName);
+
         res.render("thanks", {
             layout: "main",
-            infoCookie: result.rows[0],
+            result: result.rows[0],
+            fullname: req.session.infoCookie,
         });
     });
 });
 
 app.get("/signers", (req, res) => {
-    getSingersInfo()
+    getSignersInfo()
         .then((result) => {
             console.log("-------RESULTS-/signers--------");
             console.log(result);
+
             res.render("signers", {
                 layout: "main",
                 result: result.rows,
@@ -212,6 +219,7 @@ app.post("/profile", (req, res) => {
         console.log("----------RESULT IN POST /PROFILE----------");
         console.log(result);
     });
+    res.redirect("/petition");
 });
 
 app.get("/signers/:city", (req, res) => {

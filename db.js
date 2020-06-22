@@ -38,16 +38,30 @@ module.exports.getSignature = (userId) => {
 
 module.exports.insertProfileInfo = (age, city, url, userId) => {
     return db.query(
-        `INSERT INTO user_profiles (age, city, url, user_id) VALUES ($1, $2, $3, $4) RETURNING id`,
+        `INSERT INTO user_profiles (age, city, url, user_id) VALUES ($1, $2, $3, $4) RETIRNING *`,
         [age, city, url, userId]
     );
 };
 
-module.exports.getSingersInfo = () => {
+module.exports.getSignersInfo = () => {
     return db.query(`SELECT first, last, age, city, url
     FROM users
     JOIN signature
     ON users.id = signature.user_id
-    JOIN user_profiles
-    ON signature.id = user_profiles.user_id`);
+    LEFT JOIN user_profiles
+    ON users.id = user_profiles.user_id`);
+};
+
+module.exports.getSignersByCity = (city) => {
+    return db.query(
+        `SELECT first, last, age, city, url
+    FROM users
+    JOIN signature
+    ON users.id = signature.user_id
+    LEFT JOIN user_profiles
+    ON users.id = user_profiles.user_id
+    WHERE city = $1
+    WHERE LOWER(city) = LOWER($1) RETURNING *
+    `[city]
+    );
 };
