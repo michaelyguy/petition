@@ -5,7 +5,6 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const {
     insertSignature,
-    getFirstAndLast,
     getSignatureById,
     insertUserInfo,
     getHashedPassword,
@@ -77,21 +76,6 @@ app.get("/thanks", (req, res) => {
         });
     });
 });
-
-// app.get("/signers", (req, res) => {
-//     getFirstAndLast()
-//         .then((result) => {
-//             console.log("-------RESULTS-/signers--------");
-//             console.log(result);
-//             res.render("signers", {
-//                 layout: "main",
-//                 result: result.rows,
-//             });
-//         })
-//         .catch((err) => {
-//             console.log("ERROR IN GET /signers: ", err);
-//         });
-// });
 
 app.get("/signers", (req, res) => {
     getSingersInfo()
@@ -228,6 +212,14 @@ app.post("/profile", (req, res) => {
     ).then((result) => {
         console.log("----------RESULT IN POST /PROFILE----------");
         console.log(result);
+    });
+});
+
+app.get("/signers/:city", (req, res) => {
+    console.log("------REQ.PARAMS------");
+    console.log(req.params);
+    res.render("signers-by-city", {
+        layout: "main",
     });
 });
 

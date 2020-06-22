@@ -1,3 +1,26 @@
+* {
+    margin: 0;
+}
+#ticker {
+    overflow: hidden;
+    background-color: wheat;
+    border-bottom: 1px solid black;
+    height: 1.5em;
+    position: relative;
+}
+
+#links {
+    white-space: nowrap;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+#links a {
+    padding-right: 40px;
+    color: saddlebrown;
+}
+
 body {
     position: relative;
     background-image: url("blacklives.new.jpg");

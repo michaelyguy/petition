@@ -8,10 +8,6 @@ module.exports.insertSignature = (signature, id) => {
     );
 };
 
-module.exports.getFirstAndLast = () => {
-    return db.query(`SELECT first, last FROM signature`);
-};
-
 module.exports.getSignatureById = (userId) => {
     return db.query(`SELECT signature FROM signature WHERE id = $1`, [userId]);
 };
