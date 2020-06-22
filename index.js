@@ -166,7 +166,6 @@ app.post("/login", (req, res) => {
                                     result.rows[0].id;
                                 console.log("-----MY COOKIE-----");
                                 console.log(req.session.infoCookie);
-
                                 console.log(
                                     "------RESULT IN GETSIGNATURE-----"
                                 );
@@ -223,6 +222,6 @@ app.get("/signers/:city", (req, res) => {
     });
 });
 
-app.listen(8080, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log("PETITION RUNING!");
 });
