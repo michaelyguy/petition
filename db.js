@@ -27,7 +27,7 @@ module.exports.insertUserInfo = (first, last, email, password) => {
 };
 
 module.exports.getHashedPassword = (email) => {
-    return db.query(`SELECT password FROM users WHERE email = $1`, [email]);
+    return db.query(`SELECT password, id FROM users WHERE email = $1`, [email]);
 };
 
 module.exports.getSignature = (userId) => {
@@ -72,7 +72,7 @@ module.exports.getInfoForEdit = (userId) => {
     FROM users
     LEFT JOIN user_profiles    
     ON users.id = user_profiles.user_id
-    WHERE user_profiles.user_id = $1`,
+    WHERE users.id = $1`,
         [userId]
     );
 };

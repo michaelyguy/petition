@@ -91,6 +91,7 @@ app.get("/thanks", (req, res) => {
     getSignatureById(req.session.infoCookie.signatureId).then((result) => {
         console.log("-----RESULT /THANKS GET-----");
         console.log(result);
+
         console.log("------FIRST NAMEEEEE----");
 
         console.log(req.session.infoCookie.firstName);
@@ -187,6 +188,11 @@ app.post("/login", (req, res) => {
                 .then((match) => {
                     console.log("password correct?", match);
                     if (match == true) {
+                        req.session.infoCookie = {};
+                        req.session.infoCookie.userId = result.rows[0].id;
+                        console.log("--------ASFDSFFSF------");
+                        console.log(result.rows);
+
                         ///// I WANT TO CHECK IF THE USER ALREASY SIGN WITH THE COOKIE! ///
                         getSignature(result.rows[0].id).then((result) => {
                             if (result.rows.length > 0) {
@@ -269,7 +275,7 @@ app.get("/profile/edit", (req, res) => {
             console.log(result);
             res.render("profile-edit", {
                 layout: "main",
-                signers: result.rows,
+                profileInfo: result.rows,
             });
         });
     } else {
