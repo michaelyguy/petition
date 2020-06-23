@@ -12,6 +12,7 @@ const {
     insertProfileInfo,
     getSignersInfo,
     getSignersByCity,
+    getInfoForEdit,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
@@ -35,6 +36,25 @@ app.use(function (req, res, next) {
     res.locals.csrfToken = req.csrfToken();
     next();
 });
+//// EXAMPLE FROM CLASS /////
+//// CHECK THIS /////
+// app.use(function (req, res, next) {
+//     if (
+//         !req.session.infoCookie.userId &&
+//         req.url != "/register" &&
+//         req.url != "/login"
+//     ) {
+//         res.redirect("/register");
+//     } else {
+//         next();
+//     }
+// });
+//// THIS MIDDLEWARE WILL RUN ONLY ON ROUTE THAT BEGIN WITH AUTH ////
+// app.use("/auth", function (req, res, next) {
+//     if (!req.session.infoCookie.userId) {
+//         res.redirect("/petition");
+//     }
+// });
 
 app.get("/", (req, res) => {
     res.redirect("/register");
@@ -84,11 +104,11 @@ app.get("/thanks", (req, res) => {
 });
 
 app.get("/signers", (req, res) => {
+    ///Check the url you get from user to make sure it's not malicious///
     getSignersInfo()
         .then((result) => {
             console.log("-------RESULTS-/signers--------");
             console.log(result);
-
             res.render("signers", {
                 layout: "main",
                 result: result.rows,
@@ -239,6 +259,19 @@ app.get("/signers/:city", (req, res) => {
             console.log("ERROR IN SIGNERS/:CITY: ", err);
         });
 });
+
+app.get("/profile/edit", (req, res) => {
+    getInfoForEdit().then((result) => {
+        console.log("-----RESULT IN PROFILE/EDIT-----");
+        console.log(result);
+        res.render("profile-edit", {
+            layout: "main",
+            signers: result.rows,
+        });
+    });
+});
+
+app.post("/profile/edit", (req, res) => {});
 
 app.listen(process.env.PORT || 8080, () => {
     console.log("PETITION RUNING!");
