@@ -13,6 +13,8 @@ const {
     getSignersInfo,
     getSignersByCity,
     getInfoForEdit,
+    updateThreeColumns,
+    updateFourColumns,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
@@ -91,9 +93,7 @@ app.get("/thanks", (req, res) => {
     getSignatureById(req.session.infoCookie.signatureId).then((result) => {
         console.log("-----RESULT /THANKS GET-----");
         console.log(result);
-
         console.log("------FIRST NAMEEEEE----");
-
         console.log(req.session.infoCookie.firstName);
 
         res.render("thanks", {
@@ -190,10 +190,6 @@ app.post("/login", (req, res) => {
                     if (match == true) {
                         req.session.infoCookie = {};
                         req.session.infoCookie.userId = result.rows[0].id;
-                        console.log("--------ASFDSFFSF------");
-                        console.log(result.rows);
-
-                        ///// I WANT TO CHECK IF THE USER ALREASY SIGN WITH THE COOKIE! ///
                         getSignature(result.rows[0].id).then((result) => {
                             if (result.rows.length > 0) {
                                 req.session.infoCookie.signatureId =
@@ -250,12 +246,8 @@ app.post("/profile", (req, res) => {
 });
 
 app.get("/signers/:city", (req, res) => {
-    console.log("------REQ.PARAMS------");
-    console.log(req.params);
     getSignersByCity(req.params.city)
         .then((result) => {
-            console.log("---------RESULT INSIDE PARAMS--------");
-            console.log(result);
             res.render("signers-by-city", {
                 layout: "main",
                 city: req.params.city,
@@ -269,7 +261,6 @@ app.get("/signers/:city", (req, res) => {
 
 app.get("/profile/edit", (req, res) => {
     if (req.session.infoCookie.userId) {
-        console.log("------MY COOKIEEEEE-----");
         getInfoForEdit(req.session.infoCookie.userId).then((result) => {
             console.log("-----RESULT IN PROFILE/EDIT-----");
             console.log(result);
@@ -283,7 +274,30 @@ app.get("/profile/edit", (req, res) => {
     }
 });
 
-app.post("/profile/edit", (req, res) => {});
+app.post("/profile/edit", (req, res) => {
+    const userInfo = req.body;
+    console.log("-------USER INFO POST /PROFILE/EDIT-------");
+    console.log(userInfo);
+    if (userInfo.password == "") {
+        updateThreeColumns(
+            userInfo.firstName,
+            userInfo.lastName,
+            userInfo.email,
+            req.session.infoCookie.userId
+        ).then((result) => {
+            console.log("------RESULTS IN POST PROFILE/EDIT--------");
+            console.log(result);
+        });
+    } else {
+        updateFourColumns(
+            userInfo.firstName,
+            userInfo.lastName,
+            userInfo.email,
+            userInfo.password,
+            req.session.infoCookie.userId
+        );
+    }
+});
 
 app.listen(process.env.PORT || 8080, () => {
     console.log("PETITION RUNING!");

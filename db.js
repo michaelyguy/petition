@@ -15,10 +15,6 @@ module.exports.getSignatureById = (userId) => {
     return db.query(`SELECT signature FROM signature WHERE id = $1`, [userId]);
 };
 
-module.exports.getAllData = () => {
-    return db.query(`SELECT * FROM signature`);
-};
-
 module.exports.insertUserInfo = (first, last, email, password) => {
     return db.query(
         `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id`,
@@ -38,7 +34,7 @@ module.exports.getSignature = (userId) => {
 
 module.exports.insertProfileInfo = (age, city, url, userId) => {
     return db.query(
-        `INSERT INTO user_profiles (age, city, url, user_id) VALUES ($1, $2, $3, $4) RETIRNING *`,
+        `INSERT INTO user_profiles (age, city, url, user_id) VALUES ($1, $2, $3, $4) RETURNING *`,
         [age, city, url, userId]
     );
 };
@@ -74,5 +70,21 @@ module.exports.getInfoForEdit = (userId) => {
     ON users.id = user_profiles.user_id
     WHERE users.id = $1`,
         [userId]
+    );
+};
+
+module.exports.updateThreeColumns = (first, last, email, userId) => {
+    return db.query(
+        `UPDATE users
+         SET first = $1, last = $2, email = $3 WHERE users.id = $4 RETURNING *`,
+        [first, last, email, userId]
+    );
+};
+
+module.exports.updateFourColumns = (first, last, email, password, userId) => {
+    return db.query(
+        `UPDATE users
+         SET first = $1, last = $2, email = $3, password = $4 WHERE users.id = $5 RETURNING *`,
+        [first, last, email, password, userId]
     );
 };
