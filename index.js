@@ -187,6 +187,7 @@ app.post("/login", (req, res) => {
                 .then((match) => {
                     console.log("password correct?", match);
                     if (match == true) {
+                        ///// I WANT TO CHECK IF THE USER ALREASY SIGN WITH THE COOKIE! ///
                         getSignature(result.rows[0].id).then((result) => {
                             if (result.rows.length > 0) {
                                 req.session.infoCookie.signatureId =
@@ -261,14 +262,19 @@ app.get("/signers/:city", (req, res) => {
 });
 
 app.get("/profile/edit", (req, res) => {
-    getInfoForEdit().then((result) => {
-        console.log("-----RESULT IN PROFILE/EDIT-----");
-        console.log(result);
-        res.render("profile-edit", {
-            layout: "main",
-            signers: result.rows,
+    if (req.session.infoCookie.userId) {
+        console.log("------MY COOKIEEEEE-----");
+        getInfoForEdit(req.session.infoCookie.userId).then((result) => {
+            console.log("-----RESULT IN PROFILE/EDIT-----");
+            console.log(result);
+            res.render("profile-edit", {
+                layout: "main",
+                signers: result.rows,
+            });
         });
-    });
+    } else {
+        console.log("byebyebyebeyb");
+    }
 });
 
 app.post("/profile/edit", (req, res) => {});

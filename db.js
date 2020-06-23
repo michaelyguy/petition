@@ -66,11 +66,13 @@ module.exports.getSignersByCity = (city) => {
     );
 };
 
-module.exports.getInfoForEdit = () => {
-    return db.query(`SELECT first, last, email, age, city, url
+module.exports.getInfoForEdit = (userId) => {
+    return db.query(
+        `SELECT *
     FROM users
-    JOIN signature
-    ON users.id = signature.user_id
-    LEFT JOIN user_profiles
-    ON users.id = user_profiles.user_id`);
+    LEFT JOIN user_profiles    
+    ON users.id = user_profiles.user_id
+    WHERE user_profiles.user_id = $1`,
+        [userId]
+    );
 };
