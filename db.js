@@ -88,3 +88,13 @@ module.exports.updateFourColumns = (first, last, email, password, userId) => {
         [first, last, email, password, userId]
     );
 };
+
+module.exports.upsertUserProfile = () => {
+    return db.query(
+        `INSERT INTO user_profiles 
+        (age ,city, url) VALUES ($1, $2, $3)
+        ON CONFLICT (user_id)
+        DO UPDATE
+        SET age = $1, city = $2, url = $3`
+    );
+};

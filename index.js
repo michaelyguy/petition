@@ -15,6 +15,7 @@ const {
     getInfoForEdit,
     updateThreeColumns,
     updateFourColumns,
+    upsertUserProfile,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
@@ -284,10 +285,14 @@ app.post("/profile/edit", (req, res) => {
             userInfo.lastName,
             userInfo.email,
             req.session.infoCookie.userId
-        ).then((result) => {
-            console.log("------RESULTS IN POST PROFILE/EDIT--------");
-            console.log(result);
-        });
+        )
+            .then((result) => {
+                console.log("------RESULTS IN POST PROFILE/EDIT--------");
+                console.log(result);
+            })
+            .catch((err) => {
+                console.log("ERROR IN CATCH /PROFILE/EDIT: ", err);
+            });
     } else {
         updateFourColumns(
             userInfo.firstName,
@@ -295,8 +300,17 @@ app.post("/profile/edit", (req, res) => {
             userInfo.email,
             userInfo.password,
             req.session.infoCookie.userId
-        );
+        ).then((result) => {
+            console.log("------RESULTS IN UPDATE 4 COLUMS-------");
+            console.log(result);
+            hash(result.rows[0].password).then((hashedPw) => {
+                console.log("-----HASHED PW IN 4---------");
+                console.log(hashedPw);
+                ///// INSERT/UPDATE THE NEW PASSWORD INTO THE DB //////
+            });
+        });
     }
+    res.redirect("/thanks");
 });
 
 app.listen(process.env.PORT || 8080, () => {
