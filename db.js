@@ -23,13 +23,11 @@ module.exports.insertUserInfo = (first, last, email, password) => {
 };
 
 module.exports.getHashedPassword = (email) => {
-    return db.query(`SELECT password, id FROM users WHERE email = $1`, [email]);
+    return db.query(`SELECT * FROM users WHERE email = $1`, [email]);
 };
 
-module.exports.getSignature = (userId) => {
-    return db.query(`SELECT signature FROM signature WHERE user_id = $1`, [
-        userId,
-    ]);
+module.exports.getSignatureIdByUserId = (userId) => {
+    return db.query(`SELECT id FROM signature WHERE user_id = $1`, [userId]);
 };
 
 module.exports.insertProfileInfo = (age, city, url, userId) => {
@@ -89,12 +87,17 @@ module.exports.updateFourColumns = (first, last, email, password, userId) => {
     );
 };
 
-module.exports.upsertUserProfile = () => {
+module.exports.upsertUserProfile = (age, city, url, userId) => {
     return db.query(
         `INSERT INTO user_profiles 
-        (age ,city, url) VALUES ($1, $2, $3)
+        (age ,city, url, user_id) VALUES ($1, $2, $3, $4)
         ON CONFLICT (user_id)
         DO UPDATE
-        SET age = $1, city = $2, url = $3`
+        SET age = $1, city = $2, url = $3, user_id = $4`,
+        [age, city, url, userId]
     );
+};
+
+module.exports.deleteSig = (signatureId) => {
+    return db.query(`DELETE FROM signature WHERE id = $1`, [signatureId]);
 };

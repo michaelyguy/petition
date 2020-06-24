@@ -8,7 +8,7 @@ const {
     getSignatureById,
     insertUserInfo,
     getHashedPassword,
-    getSignature,
+    getSignatureIdByUserId,
     insertProfileInfo,
     getSignersInfo,
     getSignersByCity,
@@ -16,6 +16,7 @@ const {
     updateThreeColumns,
     updateFourColumns,
     upsertUserProfile,
+    deleteSig,
 } = require("./db.js");
 const { hash, compare } = require("./bc.js");
 
@@ -105,6 +106,12 @@ app.get("/thanks", (req, res) => {
     });
 });
 
+app.post("/thanks", (req, res) => {
+    deleteSig(req.session.infoCookie.signatureId).then((result) => {
+        res.redirect("/petition");
+    });
+});
+
 app.get("/signers", (req, res) => {
     ///Check the url you get from user to make sure it's not malicious///
     getSignersInfo()
@@ -191,21 +198,28 @@ app.post("/login", (req, res) => {
                     if (match == true) {
                         req.session.infoCookie = {};
                         req.session.infoCookie.userId = result.rows[0].id;
-                        getSignature(result.rows[0].id).then((result) => {
-                            if (result.rows.length > 0) {
-                                req.session.infoCookie.signatureId =
-                                    result.rows[0].id;
-                                console.log("-----MY COOKIE-----");
-                                console.log(req.session.infoCookie);
-                                console.log(
-                                    "------RESULT IN GETSIGNATURE-----"
-                                );
+                        req.session.infoCookie.firstName = result.rows[0].first;
+                        req.session.infoCookie.lastName = result.rows[0].last;
+                        getSignatureIdByUserId(result.rows[0].id).then(
+                            (result) => {
+                                console.log("------RESULT FOR GET SIG------");
+
                                 console.log(result);
-                                res.redirect("/thanks");
-                            } else {
-                                res.redirect("/petition");
+
+                                if (result.rows.length > 0) {
+                                    req.session.infoCookie.signatureId =
+                                        result.rows[0].id;
+                                    console.log(
+                                        "------req.session.infoCookie-----"
+                                    );
+                                    console.log(req.session.infoCookie);
+
+                                    res.redirect("/thanks");
+                                } else {
+                                    res.redirect("/petition");
+                                }
                             }
-                        });
+                        );
                     } else {
                         res.render("login", {
                             layout: "main",
@@ -310,6 +324,23 @@ app.post("/profile/edit", (req, res) => {
             });
         });
     }
+    console.log("---USER INFO BEFORE CHECK-----");
+
+    console.log(userInfo);
+
+    upsertUserProfile(
+        userInfo.age,
+        userInfo.city,
+        userInfo.homePage,
+        req.session.infoCookie.userId
+    )
+        .then((result) => {
+            console.log("-----RESULT IN UPSERT-----");
+            console.log(result);
+        })
+        .catch((err) => {
+            console.log("ERROR IN UPSERT: ", err);
+        });
     res.redirect("/thanks");
 });
 
