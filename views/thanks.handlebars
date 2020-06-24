@@ -1,12 +1,12 @@
-<h1> THANKS! </h1>
+<h1> thank you for supporting </h1>
 <h3> - Text will ocme later i promise - </h3>
 
-
+<main>
 {{#fullname}}
 <h1>{{firstName}} {{lastName}}</h1>
 {{/fullname}}
 {{#result}}
- <img src="{{signature}}" class="signature-field" width="600" height="100"/>
+ <img src="{{signature}}" class="signature-field" width="300" height="80"/>
 {{/result}}
 
 <a href="/profile/edit">Edit profile</a>
@@ -16,4 +16,5 @@
     <button type="submit"> Delete signature</button>
     <input type="hidden" name="_csrf" value="{{csrfToken}}"> 
     </form>
+</main>
 
