@@ -4,18 +4,17 @@
 
 
 
-<main></main>
-{{!-- <h3>{{firstName}} {{lastName}}</h3> --}}
+<main>
 {{/fullname}}
 {{#result}}
  <img src="{{signature}}" class="signature-field" width="300" height="80"/>
 {{/result}}
 
-<a href="/profile/edit">Edit profile</a>
-<a href="/signers">See supporters!</a>
+<a class="thank-u-links" href="/profile/edit">Edit profile</a>
+<a class="thank-u-links" href="/signers">See signers</a>
 
 <form method="POST">
-    <button type="submit"> Delete signature</button>
+    <button class="thank-u-links" type="submit"> Delete signature</button>
     <input type="hidden" name="_csrf" value="{{csrfToken}}"> 
     </form>
 </main>

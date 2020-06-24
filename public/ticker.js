@@ -1,6 +1,6 @@
 (function () {
     var allLinks = document.getElementById("links");
-    var link = document.getElementsByTagName("a");
+    var link = allLinks.getElementsByTagName("a");
     var left = allLinks.offsetLeft;
     var reqId;
     function move() {
