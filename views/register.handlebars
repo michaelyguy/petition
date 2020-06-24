@@ -1,26 +1,20 @@
-<h1> REGISTER PAGE </h1>
+<h1> REGISTER </h1>
+
+<main>
  <form method="POST">
-          <div class="item">
           <input type="text" id="first" name="firstName" placeholder="First Name">
           <input type="text" id="last" name="lastName" placeholder="Last Name">
            <input type="text" id="email" name="email" placeholder="Email">
           <input type="password" id="password" name="password" placeholder="Password">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-
-         
-          
-        </div>
-          <div class="item"></div>
-        
-          <button type="submit"> REGISTER </button>
-          <div class="item"></div>
-          </form>
+        <button type="submit"> REGISTER </button>
+  </form>
+  </main>
 
 
         {{#if error}}
-  <div class="error">Something went wrong! It is totally your fault.</div>
+  <div class="error">Something went wrong! Please try again.</div>
         {{/if}}
 
 
-          <a href="/login">Aalready registered</a>
+          {{!-- <a href="/login">Aalready registered</a> --}}

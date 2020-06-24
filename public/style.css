@@ -1,5 +1,7 @@
 * {
+    box-sizing: border-box;
     margin: 0;
+    /* font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; */
 }
 #ticker {
     overflow: hidden;
@@ -22,9 +24,8 @@
 }
 
 body {
-    position: relative;
+    /* position: relative; */
     background-image: url("blacklives.new.jpg");
-    background-color: wheat;
 }
 
 .back-image {
@@ -57,23 +58,24 @@ h3 {
     -webkit-text-stroke: 1px black;
 }
 
-.container {
+/* .container {
     display: flex;
     justify-content: space-around;
     align-items: center;
     text-align: center;
     width: 100vw;
     height: 40vh;
-    /* background-color: wheat; */
-}
-
+    background-color: wheat;
+} */
+/* 
 .item {
     display: inline-block;
     text-align: center;
-    /* background-color: chartreuse; */
+    background-color: chartreuse;
     font-family: monospace;
     font-size: 18px;
-}
+} */
+
 canvas {
     border: 2px dotted black;
     text-align: center;
@@ -92,20 +94,34 @@ canvas {
     border-radius: 25px;
 }
 
-#first,
-#last {
-    margin: 0 15px;
-    text-align: center;
+button {
+    background-color: wheat;
     height: 40px;
     width: 150px;
-    border-radius: 25px;
+    /* border-radius: 25px; */
 }
 
-button {
-    height: 40px;
-    width: 150px;
-    border-radius: 25px;
+form {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
-/* .item p {
-    margin: -2px;
-} */
+
+input {
+    color: wheat;
+    margin: 0 15px;
+    text-align: center;
+    height: 25px;
+    width: 200px;
+    /* border-radius: 25px; */
+    border-bottom: 1px solid wheat;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    background: transparent;
+    /* outline: 0; */
+    padding: 10px;
+    margin: 20px;
+}
