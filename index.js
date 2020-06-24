@@ -248,15 +248,26 @@ app.post("/profile", (req, res) => {
     const userInfo = req.body;
     console.log("-------USER INFO POST /PROFILE-------");
     console.log(userInfo);
+    if (
+        !userInfo.homePage.startsWith("https://") &&
+        !userInfo.homePage.startsWith("http://")
+    ) {
+        console.log("------MALICIOUS URL------");
+        userInfo.homePage = `https://${userInfo.homePage}`;
+    }
     insertProfileInfo(
         userInfo.age,
         userInfo.city,
         userInfo.homePage,
         req.session.infoCookie.userId
-    ).then((result) => {
-        console.log("----------RESULT IN POST /PROFILE----------");
-        console.log(result);
-    });
+    )
+        .then((result) => {
+            console.log("----------RESULT IN POST /PROFILE----------");
+            console.log(result);
+        })
+        .catch((err) => {
+            console.log("ERROR IN CATCH PSOT PROFILE", err);
+        });
     res.redirect("/petition");
 });
 
