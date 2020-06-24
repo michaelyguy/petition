@@ -40,25 +40,6 @@ app.use(function (req, res, next) {
     res.locals.csrfToken = req.csrfToken();
     next();
 });
-//// EXAMPLE FROM CLASS /////
-//// CHECK THIS /////
-// app.use(function (req, res, next) {
-//     if (
-//         !req.session.infoCookie.userId &&
-//         req.url != "/register" &&
-//         req.url != "/login"
-//     ) {
-//         res.redirect("/register");
-//     } else {
-//         next();
-//     }
-// });
-//// THIS MIDDLEWARE WILL RUN ONLY ON ROUTE THAT BEGIN WITH AUTH ////
-// app.use("/auth", function (req, res, next) {
-//     if (!req.session.infoCookie.userId) {
-//         res.redirect("/petition");
-//     }
-// });
 
 app.get("/", (req, res) => {
     res.redirect("/register");

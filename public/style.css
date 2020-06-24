@@ -21,6 +21,7 @@
 #links a {
     padding-right: 40px;
     color: saddlebrown;
+    text-decoration: none;
 }
 
 body {
@@ -69,6 +70,17 @@ h3 {
     width: 300px;
 } */
 
+#topleft-link {
+    color: saddlebrown;
+    /* -webkit-text-stroke: 0.3px wheat; */
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    position: absolute;
+    top: 35px;
+    left: 20px;
+    font-size: 25px;
+    text-decoration: none;
+}
+
 .signature-field {
     border: 2px dotted black;
     text-align: center;
@@ -111,6 +123,10 @@ input {
     background: transparent;
     padding: 10px;
     margin: 20px;
+}
+
+::placeholder {
+    color: wheat;
 }
 
 main {
