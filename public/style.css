@@ -1,7 +1,6 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    /* font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; */
 }
 #ticker {
     overflow: hidden;
@@ -29,23 +28,8 @@ body {
     background-image: url("blacklives.new.jpg");
 }
 
-/* .back-image {
-    display: inline-block;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-} */
-
-/* img {
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-} */
-
 h1 {
-    font-size: 90px;
+    font-size: 80px;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     text-align: center;
     color: wheat;
@@ -81,18 +65,28 @@ h3 {
 }
 
 ul {
+    margin-top: 40px;
     list-style-type: none;
     text-align: center;
-    color: wheat;
-    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     font-size: 20px;
     text-decoration: none;
+    height: 50vh;
+    width: 30vw;
+    overflow: scroll;
 }
 
 li {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color: wheat;
     text-decoration: none;
+    font-family: Helvetica, sans-serif;
+}
+
+li a {
+    margin-bottom: 20px;
+    color: wheat;
+    text-decoration: none;
+    font-family: Helvetica, sans-serif;
 }
 
 .thank-u-links {
@@ -156,4 +150,11 @@ main {
     justify-content: center;
     align-items: center;
     padding-top: 35px;
+}
+
+.thanks-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
