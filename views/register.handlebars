@@ -9,22 +9,21 @@
 </p>
 </div>
 
-
-<main>
+{{!-- <main> --}}
  <form method="POST">
           <input type="text" id="first" name="firstName" placeholder="First Name">
           <input type="text" id="last" name="lastName" placeholder="Last Name">
            <input type="text" id="email" name="email" placeholder="Email">
           <input type="password" id="password" name="password" placeholder="Password">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button type="submit"> REGISTER </button>
+        <button class="register-btn" type="submit"> REGISTER </button>
         {{!-- <p><a id="topleft-link" href="/login">login</a></p> --}}
   </form>
 
   <img class="img-register-right" src="ppl.jpg"/>
     <img class="img-register-left" src="ppl2.png"/>
 
-  </main>
+  {{!-- </main> --}}
 
 
         {{#if error}}

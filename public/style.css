@@ -90,6 +90,20 @@ h3 {
     border-right: 2px solid black;
 }
 
+form {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: blanchedalmond;
+    border-left: 2px solid black;
+    position: absolute;
+    bottom: 0;
+    height: 43.2vh;
+    width: 360px;
+}
+
 #login {
     color: black;
     font-family: "Continua";
@@ -176,14 +190,6 @@ button {
     height: 35px;
 
     color: black;
-}
-
-form {
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
 }
 
 input {
