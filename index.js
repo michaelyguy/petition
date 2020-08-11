@@ -1,3 +1,8 @@
+//// THINGS TO FIX ////
+//// TO ADD ERROR <P> IN MY FREE TIME LATER ////
+//// PPL CAN REG WITHOUT PASSWORD //////
+//// ADD LOGOUT - OOOPS /////
+
 const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
