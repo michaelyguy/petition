@@ -3,15 +3,53 @@
     margin: 0;
 }
 
+/* html, */
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: blanchedalmond;
+    overflow: hidden;
+
+    /* display: grid;
+    grid-template-rows: 70px auto 70px;
+    grid-template-columns: 300px auto 150px;
+    grid-template-rows: 100px 200px;
+    grid-template-columns: 40% 1fr 2fr; */
+}
+
 @font-face {
     font-family: "Continua";
     src: url("Continua-Regular.otf");
 }
 
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 2px solid black;
     height: 65px;
     background-color: blanchedalmond;
+    z-index: 10;
+}
+
+#login {
+    color: black;
+    font-family: "helvetica";
+    /* position: absolute;
+    top: 0px;
+    right: 20px; */
+    font-size: 25px;
+    text-decoration: none;
+    /* text-transform: uppercase; */
+    /* border-right: 2px solid black;
+    border-bottom: 2px solid black; */
+    margin-right: 20px;
+    font-weight: normal;
+
+    /* height: 100%;
+    width: 250px; */
+
+    /* background-color: chartreuse; */
 }
 
 #ticker {
@@ -38,17 +76,23 @@ header {
     text-transform: uppercase;
 }
 
-body {
-    /* position: relative; */
-    /* background-image: url("blacklives.new.jpg"); */
-    overflow: hidden;
-}
+/* body { */
+/* position: relative; */
+/* background-image: url("blacklives.new.jpg"); */
+/* overflow: hidden; */
+/* background-color: blueviolet;
+    z-index: 20; */
+
+/* } */
 
 h1 {
     font-size: 50px;
     font-family: "Continua";
-    text-align: center;
+    /* text-align: center; */
     text-transform: uppercase;
+    margin-left: 20px;
+    margin-top: -5px;
+    font-weight: normal;
 }
 
 h3 {
@@ -73,21 +117,29 @@ h3 {
 }
 
 .img-register-right {
-    width: 40%;
+    width: 50%;
     position: absolute;
     right: 0;
     top: 65px;
     border-left: 2px solid black;
 }
+.left-container {
+    background-color: cyan;
+    height: 100%;
+    width: 66%;
+}
 
 .img-register-left {
-    /* width: 20%; */
-    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* position: absolute;
     left: 0;
     bottom: 0;
-    height: 43.2vh;
+    z-index: 1; */
     /* border-left: 2px solid black; */
-    border-right: 2px solid black;
+    /* border-right: 2px solid black; */
 }
 
 form {
@@ -102,23 +154,6 @@ form {
     bottom: 0;
     height: 43.2vh;
     width: 360px;
-}
-
-#login {
-    color: black;
-    font-family: "Continua";
-    position: absolute;
-    top: 0px;
-    left: 30px;
-    font-size: 50px;
-    text-decoration: none;
-    text-transform: uppercase;
-    border-right: 2px solid black;
-    /* border-bottom: 2px solid black; */
-
-    /* background-color: brown; */
-    height: 65px;
-    width: 205px;
 }
 
 #top-left-link {
