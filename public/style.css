@@ -124,7 +124,7 @@ h3 {
     border-left: 2px solid black;
 }
 .left-container {
-    background-color: cyan;
+    /* background-color: cyan; */
     height: 100%;
     width: 66%;
 }
