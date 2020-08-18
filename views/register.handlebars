@@ -1,3 +1,36 @@
+<div class="wrapper">
+
+      <div class="left-container">
+            <img class="img-register-left" src="ppl2-copy.png"/>
+      </div>
+    
+
+      <div class="right-container">
+            <div class="text-con">
+            <p>on May 29, Derek Chauvin was arrested and charged with second 
+            degree murder, third degree murder and manslaughter. The other 
+            three officers were charged with aiding and abetting second degree murder, 
+            aiding and abetting third degree murder and aiding and abetting manslaughter. 
+            But the fight for justice continues, as does the need to keep a spotlight on 
+            Minneapolis. Please help me make sure there is a fair judicial process that 
+            results in justice and in the conviction of George Floyd's murderers.
+                  </p>
+            </div>
+            <main>
+                  <form method="POST">
+                        <input type="text" id="first" name="firstName" placeholder="First Name">
+                        <input type="text" id="last" name="lastName" placeholder="Last Name">
+                        <input type="text" id="email" name="email" placeholder="Email">
+                        <input type="password" id="password" name="password" placeholder="Password">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        <button class="register-btn" type="submit"> Register </button>
+                  </form>
+             </main>
+      </div>
+
+       
+</div>
+
 {{!-- <div class="text-con">
 <p>on May 29, Derek Chauvin was arrested and charged with second 
   degree murder, third degree murder and manslaughter. The other 
@@ -7,31 +40,21 @@
   Minneapolis. Please help me make sure there is a fair judicial process that 
   results in justice and in the conviction of George Floyd's murderers.
 </p>
-</div>
-
-<main>
- <form method="POST">
-          <input type="text" id="first" name="firstName" placeholder="First Name">
-          <input type="text" id="last" name="lastName" placeholder="Last Name">
-           <input type="text" id="email" name="email" placeholder="Email">
-          <input type="password" id="password" name="password" placeholder="Password">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button class="register-btn" type="submit"> REGISTER </button>
-  </form> --}}
-
-  {{!-- <img class="img-register-right" src="ppl.jpg"/> --}}
-          <div class="left-container">
-                 <img class="img-register-left" src="ppl2.png"/>
-          </div>
+</div> --}}
 
    
 
-  {{!-- </main>
+  {{!-- <img class="img-register-right" src="ppl.jpg"/> --}}
+       
+
+   
+
+   
 
 
         {{#if error}}
   <div class="error">Something went wrong! Please try again.</div>
-        {{/if}} --}}
+        {{/if}} 
 
 
          
