@@ -235,10 +235,13 @@ li a {
 
 .thank-u-links {
     font-family: sans-serif;
-    color: wheat;
+    color: black;
     font-size: 17px;
     text-decoration: none;
-    margin: 10px 10px;
+    margin: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid black;
+    font-size: 23px;
 }
 
 .signature-field {
@@ -288,8 +291,14 @@ main {
 }
 
 .thanks-div {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
+    text-align: center; */
+    /* color: black; */
+    width: 100%;
+}
+
+.thanks-name {
+    margin: 0;
 }

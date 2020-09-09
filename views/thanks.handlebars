@@ -1,29 +1,53 @@
 <header>
-            <h1>  Justice for George Floyd </h1>
-            {{!-- <p><a id="login" href="/register">Register</a></p> --}}
+        <h1>  Justice for George Floyd </h1>
 </header>
-{{#fullname}}
-<h1> thank you {{firstName}} {{lastName}} </h1>
+
+<div class="wrapper">
+    <div class="left-container">
+                <img class="img-register-left" src="yellow.flower.jpg"/>
+    </div>
+
+    <div class="right-container">
+                <div class="text-con">
+                          <p>on May 29, Derek Chauvin was arrested and charged with second 
+                          degree murder, third degree murder and manslaughter. The other 
+                          three officers were charged with aiding and abetting second degree murder, 
+                          aiding and abetting third degree murder and aiding and abetting manslaughter. 
+                          But the fight for justice continues, as does the need to keep a spotlight on 
+                          Minneapolis. Please help me make sure there is a fair judicial process that 
+                          results in justice and in the conviction of George Floyd's murderers.
+                          </p>
+
+                          <br/>
+                          {{#fullname}}
+                          <h1 class="thanks-name"> Thanks {{firstName}} {{lastName}} </h1>
 
 
 
-<main>
-    <div class="thanks-div">
-{{/fullname}}
-{{#result}}
- <img src="{{signature}}" class="signature-field" width="300" height="80"/>
-{{/result}}
+                          <main>
+                                <div class="thanks-div">
+                                        {{/fullname}}
+                                        {{#result}}
+                                        <img src="{{signature}}" class="signature-field" width="300" height="80"/>
+                                        {{/result}}
 
-<a class="thank-u-links" href="/profile/edit">Edit profile</a>
-<a class="thank-u-links" href="/signers">See signers</a>
+                                        <a class="thank-u-links" href="/profile/edit">Edit profile</a>
+                                        <a class="thank-u-links" href="/signers">See signers</a>
 
-<form method="POST">
-    <button class="thank-u-links" type="submit"> Delete signature</button>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}"> 
-    </form>
+                                        <form method="POST">
+                                                <button type="submit"> Delete signature</button>
+                                                <input type="hidden" name="_csrf" value="{{csrfToken}}"> 
+                                        </form>
+
+                                </div>
+                        </main>
+                </div>
+                          
+                          
+                          
+    </div>
 
 </div>
-</main>
 
 
 
