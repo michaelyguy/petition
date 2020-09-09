@@ -1,22 +1,22 @@
 <header>
-            <h1>  Justice for George Floyd </h1>
+        <h1>  Justice for George Floyd </h1>
 </header>
 
 <div class="signature-container">
-                        <img class="signeture-photo" src="blacklives.new.jpg"/>
+        {{!-- <img class="signeture-photo" src="blacklives.new.jpg"/> --}}
 
+        <div class="text-sig">
+                <P>Sign our petition to make justice with George Floyd</P>
+        </div>
 
-
-
-      <main>
-        <form method="POST">
-          <input type="hidden" name="_csrf" value="{{csrfToken}}">
-          <input type="hidden" id="hiddenSignature" name="signature">
-           <canvas class="signature-field" id="canvas" width="300" height="80"></canvas>
-          <button type="submit"> sign </button>
-       
+        <main>
+          <form method="POST">
+              <input type="hidden" name="_csrf" value="{{csrfToken}}">
+              <input type="hidden" id="hiddenSignature" name="signature">
+              <canvas class="signature-field" id="canvas" width="300" height="80"></canvas>
+              <button type="submit"> Sign </button>
           </form>
-          </main>
+        </main>
 </div>
 
 

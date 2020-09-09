@@ -9,13 +9,17 @@ body {
     height: 100vh;
     background-color: blanchedalmond;
     overflow: hidden;
-    /* cursor: url("flowers.png"), auto; */
     cursor: url("vase.png"), auto;
 }
 
 @font-face {
     font-family: "Continua";
     src: url("Continua-Regular.otf");
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url(sansation_light.woff);
 }
 
 header {
@@ -73,15 +77,6 @@ header {
     text-transform: uppercase;
 }
 
-/* body { */
-/* position: relative; */
-/* background-image: url("blacklives.new.jpg"); */
-/* overflow: hidden; */
-/* background-color: blueviolet;
-    z-index: 20; */
-
-/* } */
-
 h1 {
     font-size: 50px;
     font-family: "Continua";
@@ -98,14 +93,6 @@ h3 {
     text-align: center;
     -webkit-text-stroke: 1px black;
 }
-
-/* .img-register-right {
-    width: 50%;
-    position: absolute;
-    right: 0;
-    top: 65px;
-    border-left: 2px solid black;
-} */
 
 .wrapper {
     display: flex;
@@ -150,6 +137,16 @@ h3 {
     /* background-color: blueviolet; */
 }
 
+.text-sig {
+    font-size: 23px;
+    line-height: 1.4;
+    font-family: Helvetica, sans-serif;
+    font-weight: lighter;
+    margin-bottom: 15px;
+    text-align: center;
+    margin-top: 150px;
+}
+
 form {
     display: flex;
     font-size: 50px;
@@ -188,6 +185,8 @@ input::placeholder {
     color: black;
     font-size: 50px;
     text-transform: uppercase;
+    background: transparent;
+
     font-weight: lighter;
 }
 
@@ -243,24 +242,18 @@ li a {
 
 .signature-field {
     border: 2px dotted black;
-    /* text-align: center; */
-    /* display: flex; */
-    /* margin: 100px 300px; */
-    /* justify-content: space-around; */
-    width: 550px;
+    width: 650px;
     height: 200px;
     margin: 0 auto;
-    margin-top: -800px;
-    background-color: wheat;
-
-    /* flex-wrap: wrap;
-    flex-direction: column; */
+    /* margin-top: 8%; */
+    background-color: blanchedalmond;
+    /* border-radius: 50%; */
 }
 
 .signature-container {
     height: 100%;
     width: 100%;
-    background-color: cornflowerblue;
+    /* background-color: cornflowerblue; */
 }
 
 .signeture-photo {
