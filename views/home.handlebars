@@ -2,23 +2,38 @@
         <h1>  Justice for George Floyd </h1>
 </header>
 
-<div class="signature-container">
-        {{!-- <img class="signeture-photo" src="blacklives.new.jpg"/> --}}
-
-        <div class="text-sig">
-                <P>Sign our petition to make justice with George Floyd</P>
+<div class="wrapper">
+        <div class="left-container">
+                <img class="img-register-left" src="flowers.pic.jpg"/>
         </div>
 
-        <main>
-          <form method="POST">
-              <input type="hidden" name="_csrf" value="{{csrfToken}}">
-              <input type="hidden" id="hiddenSignature" name="signature">
-              <canvas class="signature-field" id="canvas" width="300" height="80"></canvas>
-              <button type="submit"> Sign </button>
-          </form>
-        </main>
-</div>
+        <div class="right-container">
+                <div class="text-con">
+                          <p>on May 29, Derek Chauvin was arrested and charged with second 
+                          degree murder, third degree murder and manslaughter. The other 
+                          three officers were charged with aiding and abetting second degree murder, 
+                          aiding and abetting third degree murder and aiding and abetting manslaughter. 
+                          But the fight for justice continues, as does the need to keep a spotlight on 
+                          Minneapolis. Please help me make sure there is a fair judicial process that 
+                          results in justice and in the conviction of George Floyd's murderers.
+                          </p>
 
+                          <br/>
+                          
+                          <P>Sign our petition to make justice with George Floyd</P>
+                </div>
+
+        <main>
+                <form method="POST">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        <input type="hidden" id="hiddenSignature" name="signature">
+                        <canvas class="signature-field" id="canvas" width="300" height="80"></canvas>
+                        <button type="submit"> Sign </button>
+                </form>
+        </main>
+
+        </div>
+</div>
 
 <script src="script.js"></script>
 
