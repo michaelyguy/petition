@@ -99,7 +99,6 @@ app.post("/thanks", (req, res) => {
 });
 
 app.get("/signers", (req, res) => {
-    ///Check the url you get from user to make sure it's not malicious///
     getSignersInfo()
         .then((result) => {
             console.log("-------RESULTS-/signers--------");
