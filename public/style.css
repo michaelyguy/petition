@@ -9,7 +9,6 @@ body {
     height: 100vh;
     background-color: blanchedalmond;
     overflow: hidden;
-    /* cursor: url("vase.png"), auto; */
 }
 
 @font-face {
@@ -35,37 +34,16 @@ header {
 #login {
     color: black;
     font-family: "helvetica";
-    /* position: absolute;
-    top: 0px;
-    right: 20px; */
     font-size: 25px;
     text-decoration: none;
-    /* text-transform: uppercase; */
-    /* border-right: 2px solid black;
-    border-bottom: 2px solid black; */
     margin-right: 20px;
     font-weight: normal;
-    /* cursor: url("vase2.png"), auto; */
     cursor: pointer;
-
-    /* height: 100%;
-    width: 250px; */
-
-    /* background-color: chartreuse; */
-}
-
-#ticker {
-    /* overflow: hidden; */
-    /* background-color: wheat; */
-    /* border-bottom: 1px solid black; */
-    /* height: 60px; */
-    /* position: relative; */
 }
 
 #links {
     white-space: nowrap;
     position: absolute;
-    /* left: 100%; */
     bottom: 15px;
     font-family: "Continua";
     z-index: 10;
@@ -81,18 +59,10 @@ header {
 h1 {
     font-size: 50px;
     font-family: "Continua";
-    /* text-align: center; */
     text-transform: uppercase;
     margin-left: 20px;
     margin-top: -5px;
     font-weight: normal;
-}
-
-h3 {
-    font-size: 30px;
-    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-    text-align: center;
-    -webkit-text-stroke: 1px black;
 }
 
 .wrapper {
@@ -100,7 +70,6 @@ h3 {
 }
 
 .left-container {
-    /* background-color: cyan; */
     height: 100%;
     width: 66%;
 }
@@ -112,57 +81,24 @@ h3 {
 }
 
 .right-container {
-    /* background-color: cyan; */
-    /* position: absolute; */
-    /* right: 0; */
     height: 100%;
     width: 44%;
     padding: 25px 35px;
 }
 
 .text-con {
-    /* padding: 30px 30px; */
-    /* text-align: center; */
-    /* padding: 25px 35px; */
     font-size: 23px;
     line-height: 1.4;
     font-family: Helvetica, sans-serif;
     font-weight: lighter;
     margin-bottom: 15px;
-
-    /* border-bottom: 2px solid black; */
-    /* border-right: 2px solid black; */
-    /* width: 60%;
-    height: 50vh; */
-    /* overflow: scroll; */
-    /* background-color: blueviolet; */
 }
-
-/* .text-sig {
-    font-size: 23px;
-    line-height: 1.4;
-    font-family: Helvetica, sans-serif;
-    font-weight: lighter;
-    margin-bottom: 15px;
-    text-align: center;
-    margin-top: 150px;
-} */
 
 form {
     display: flex;
     font-size: 50px;
-    /* font-size: 150%; */
-
-    /* justify-content: space-around; */
-    /* align-content: center; */
-    /* flex-wrap: wrap; */
     flex-direction: column;
-    /* border-left: 2px solid black; */
-    /* position: absolute; */
-    /* bottom: 0; */
-    /* height: 43.2vh; */
     width: 100%;
-    /* background-color: darkorange; */
 }
 
 input {
@@ -175,7 +111,6 @@ input {
     border-left: 0;
     border-right: 0;
     background: transparent;
-    /* cursor: url("vase2.png"), auto; */
 }
 
 input:hover {
@@ -189,41 +124,18 @@ input::placeholder {
     background: transparent;
     font-weight: lighter;
 }
-/* 
-#top-left-link {
-    color: black;
-    font-family: "Continua";
-    position: absolute;
-    top: 0px;
-    font-size: 50px;
-    text-decoration: none;
-    text-transform: uppercase;
-    border-right: 2px solid black;
-    border-bottom: 2px solid black;
-    background-color: brown;
-    height: 65px;
-    width: 205px;
-} */
 
 ul {
-    /* margin-top: 10px; */
     list-style-type: none;
-    /* text-align: center; */
     font-size: 25px;
-    /* text-decoration: none; */
     height: 65vh;
-    /* width: 30vw; */
     overflow: scroll;
-    /* background-color: cadetblue; */
     margin-left: -40px;
     margin-bottom: 20px;
 }
 
 li {
     margin-bottom: 10px;
-    /* color: black;
-    text-decoration: none;
-    font-family: Helvetica, sans-serif; */
 }
 
 li a {
@@ -249,15 +161,7 @@ li a {
     width: 100%;
     height: 150px;
     margin: 0 auto;
-    /* margin-top: 8%; */
     background-color: blanchedalmond;
-    /* border-radius: 50%; */
-}
-
-.signature-container {
-    /* height: 100%;
-    width: 100%; */
-    /* background-color: cornflowerblue; */
 }
 
 .signeture-photo {
@@ -274,29 +178,18 @@ button {
     margin-top: 65px;
     width: 250px;
     cursor: pointer;
-    /* cursor: url("vase2.png"), auto; */
 }
 
 button:hover {
     background-color: chocolate;
     border: unset;
-    /* cursor: url("vase2.png"), auto; */
 }
 
 main {
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
     padding-top: 35px;
-    /* background: chocolate; */
 }
 
 .thanks-div {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center; */
-    /* color: black; */
     width: 100%;
 }
 

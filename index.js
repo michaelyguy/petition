@@ -59,31 +59,19 @@ app.get("/petition", (req, res) => {
 
 app.post("/petition", (req, res) => {
     const userInfo = req.body;
-    console.log("-------USER INFO-------");
-    console.log(userInfo);
     insertSignature(userInfo.signature, req.session.infoCookie.userId)
         .then((result) => {
-            console.log("-------RESULTS-/petition--------");
-            console.log(result);
             let signatureId = result.rows[0].id;
             req.session.infoCookie.signatureId = signatureId;
-            console.log("--------REQ.SESSION-----");
-            console.log(req.session);
-
             res.redirect("/thanks");
         })
         .catch((err) => {
-            console.log("ERROR IN POST /petition: ", err);
+            console.log("errro in post/petition: ", err);
         });
 });
 
 app.get("/thanks", (req, res) => {
     getSignatureById(req.session.infoCookie.signatureId).then((result) => {
-        console.log("-----RESULT /THANKS GET-----");
-        console.log(result);
-        console.log("------FIRST NAMEEEEE----");
-        console.log(req.session.infoCookie.firstName);
-
         res.render("thanks", {
             layout: "main",
             result: result.rows[0],
@@ -101,15 +89,13 @@ app.post("/thanks", (req, res) => {
 app.get("/signers", (req, res) => {
     getSignersInfo()
         .then((result) => {
-            console.log("-------RESULTS-/signers--------");
-            console.log(result);
             res.render("signers", {
                 layout: "main",
                 result: result.rows,
             });
         })
         .catch((err) => {
-            console.log("ERROR IN GET /signers: ", err);
+            console.log("error in get/signers: ", err);
         });
 });
 
@@ -121,12 +107,8 @@ app.get("/login", (req, res) => {
 
 app.post("/register", (req, res) => {
     const userInfo = req.body;
-    console.log("-------USER INFO POST REGISTER-------");
-    console.log(userInfo);
     hash(userInfo.password)
         .then((hashedPw) => {
-            console.log("------HASEDPASSWORD-----");
-            console.log(hashedPw);
             insertUserInfo(
                 userInfo.firstName,
                 userInfo.lastName,
@@ -140,12 +122,10 @@ app.post("/register", (req, res) => {
                         email: userInfo.email,
                         userId: result.rows[0].id,
                     };
-                    console.log('----RESULT IN POST"/REGISTER"----');
-                    console.log(result);
                     res.redirect("/profile");
                 })
                 .catch((err) => {
-                    console.log("ERROR IN /REGISTER INFO", err);
+                    console.log("error in post/register: ", err);
                     res.render("register", {
                         layout: "main",
                         error: true,
@@ -153,7 +133,7 @@ app.post("/register", (req, res) => {
                 });
         })
         .catch((err) => {
-            console.log("ERROR IN POST /register: ", err);
+            console.log("error in post/register: ", err);
             res.sendStatus(500);
         });
 });
@@ -166,20 +146,13 @@ app.get("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
     const userInfo = req.body;
-    console.log("-------USER INFO POST /LOGIN-------");
-    console.log(userInfo);
     const userPassword = userInfo.password;
     getHashedPassword(userInfo.email).then((result) => {
-        console.log("-----RESULT IN POST /LOGIN-----");
-        console.log(result);
         if (result.rows.length <= 0) {
             res.redirect("/register");
         } else {
-            console.log("------RESULT IN POST /LOGIN------");
-            console.log(result);
             compare(userPassword, result.rows[0].password)
                 .then((match) => {
-                    console.log("password correct?", match);
                     if (match == true) {
                         req.session.infoCookie = {};
                         req.session.infoCookie.userId = result.rows[0].id;
@@ -187,18 +160,9 @@ app.post("/login", (req, res) => {
                         req.session.infoCookie.lastName = result.rows[0].last;
                         getSignatureIdByUserId(result.rows[0].id).then(
                             (result) => {
-                                console.log("------RESULT FOR GET SIG------");
-
-                                console.log(result);
-
                                 if (result.rows.length > 0) {
                                     req.session.infoCookie.signatureId =
                                         result.rows[0].id;
-                                    console.log(
-                                        "------req.session.infoCookie-----"
-                                    );
-                                    console.log(req.session.infoCookie);
-
                                     res.redirect("/thanks");
                                 } else {
                                     res.redirect("/petition");
@@ -213,7 +177,7 @@ app.post("/login", (req, res) => {
                     }
                 })
                 .catch((err) => {
-                    console.log("error in POST /login compare:", err);
+                    console.log("error in post/login: ", err);
                     res.render("login", {
                         layout: "main",
                         error: true,
@@ -231,13 +195,10 @@ app.get("/profile", (req, res) => {
 
 app.post("/profile", (req, res) => {
     const userInfo = req.body;
-    console.log("-------USER INFO POST /PROFILE-------");
-    console.log(userInfo);
     if (
         !userInfo.homePage.startsWith("https://") &&
         !userInfo.homePage.startsWith("http://")
     ) {
-        console.log("------MALICIOUS URL------");
         userInfo.homePage = `https://${userInfo.homePage}`;
     }
     insertProfileInfo(
@@ -246,12 +207,9 @@ app.post("/profile", (req, res) => {
         userInfo.homePage,
         req.session.infoCookie.userId
     )
-        .then((result) => {
-            console.log("----------RESULT IN POST /PROFILE----------");
-            console.log(result);
-        })
+        .then((result) => {})
         .catch((err) => {
-            console.log("ERROR IN CATCH PSOT PROFILE", err);
+            console.log("error in post/profile: ", err);
         });
     res.redirect("/petition");
 });
@@ -266,15 +224,13 @@ app.get("/signers/:city", (req, res) => {
             });
         })
         .catch((err) => {
-            console.log("ERROR IN SIGNERS/:CITY: ", err);
+            console.log("error in get/signers/city: ", err);
         });
 });
 
 app.get("/profile/edit", (req, res) => {
     if (req.session.infoCookie.userId) {
         getInfoForEdit(req.session.infoCookie.userId).then((result) => {
-            console.log("-----RESULT IN PROFILE/EDIT-----");
-            console.log(result);
             res.render("profile-edit", {
                 layout: "main",
                 profileInfo: result.rows,
@@ -287,8 +243,6 @@ app.get("/profile/edit", (req, res) => {
 
 app.post("/profile/edit", (req, res) => {
     const userInfo = req.body;
-    console.log("-------USER INFO POST /PROFILE/EDIT-------");
-    console.log(userInfo);
     if (userInfo.password == "") {
         updateThreeColumns(
             userInfo.firstName,
@@ -296,12 +250,9 @@ app.post("/profile/edit", (req, res) => {
             userInfo.email,
             req.session.infoCookie.userId
         )
-            .then((result) => {
-                console.log("------RESULTS IN POST PROFILE/EDIT--------");
-                console.log(result);
-            })
+            .then((result) => {})
             .catch((err) => {
-                console.log("ERROR IN CATCH /PROFILE/EDIT: ", err);
+                console.log("error in post/profile/edit: ", err);
             });
     } else {
         updateFourColumns(
@@ -311,18 +262,9 @@ app.post("/profile/edit", (req, res) => {
             userInfo.password,
             req.session.infoCookie.userId
         ).then((result) => {
-            console.log("------RESULTS IN UPDATE 4 COLUMS-------");
-            console.log(result);
-            hash(result.rows[0].password).then((hashedPw) => {
-                console.log("-----HASHED PW IN 4---------");
-                console.log(hashedPw);
-                ///// INSERT/UPDATE THE NEW PASSWORD INTO THE DB //////
-            });
+            hash(result.rows[0].password).then((hashedPw) => {});
         });
     }
-    console.log("---USER INFO BEFORE CHECK-----");
-
-    console.log(userInfo);
 
     upsertUserProfile(
         userInfo.age,
@@ -330,10 +272,7 @@ app.post("/profile/edit", (req, res) => {
         userInfo.homePage,
         req.session.infoCookie.userId
     )
-        .then((result) => {
-            console.log("-----RESULT IN UPSERT-----");
-            console.log(result);
-        })
+        .then((result) => {})
         .catch((err) => {
             console.log("ERROR IN UPSERT: ", err);
         });
