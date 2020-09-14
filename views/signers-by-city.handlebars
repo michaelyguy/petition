@@ -1,5 +1,8 @@
+<header>
+        <h1>  Justice for George Floyd </h1>
+</header>
 
-<h1> signers from {{city}} </h1>
+{{!-- <h1> Supporters in {{city}} </h1>
 <main>
 <ul>
 {{#signers}}
@@ -7,6 +10,27 @@
 {{/signers}}
 </ul>
 </main>
-<p><a id="topleft-link" href="/signers">Back</a></p>
+<p><a id="topleft-link" href="/signers">Back</a></p> --}}
+
+
+<div class="wrapper">
+    <div class="left-container">
+            <img class="img-register-left" src="hug.jpg"/>
+    </div>
+
+    <div class="right-container">
+                <div class="text-con">
+                        <h1 id="support"> Supporters in {{city}} </h1>
+<main>
+<ul class="city-supporters">
+{{#signers}}
+<li>{{first}} {{last}} {{age}}</li>
+{{/signers}}
+</ul>
+</main>
+<p><a class="thank-u-links" href="/signers">Back</a></p>
+                </div>
+    </div>
+</div>
 
 

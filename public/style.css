@@ -200,3 +200,7 @@ main {
 #support {
     margin: 0;
 }
+
+.city-supporters {
+    height: auto;
+}
