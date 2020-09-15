@@ -196,6 +196,7 @@ app.get("/profile", (req, res) => {
 app.post("/profile", (req, res) => {
     const userInfo = req.body;
     if (
+        userInfo.homePage &&
         !userInfo.homePage.startsWith("https://") &&
         !userInfo.homePage.startsWith("http://")
     ) {
@@ -214,7 +215,7 @@ app.post("/profile", (req, res) => {
     res.redirect("/petition");
 });
 
-app.get("/signers/:city", (req, res) => {
+app.get("/signers-:city", (req, res) => {
     getSignersByCity(req.params.city)
         .then((result) => {
             res.render("signers-by-city", {
@@ -228,7 +229,7 @@ app.get("/signers/:city", (req, res) => {
         });
 });
 
-app.get("/profile/edit", (req, res) => {
+app.get("/profile-edit", (req, res) => {
     if (req.session.infoCookie.userId) {
         getInfoForEdit(req.session.infoCookie.userId).then((result) => {
             res.render("profile-edit", {
@@ -241,7 +242,7 @@ app.get("/profile/edit", (req, res) => {
     }
 });
 
-app.post("/profile/edit", (req, res) => {
+app.post("/profile-edit", (req, res) => {
     const userInfo = req.body;
     if (userInfo.password == "") {
         updateThreeColumns(
